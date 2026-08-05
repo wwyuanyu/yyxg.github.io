@@ -313,39 +313,33 @@
         margin-top: 8px;
     }
 
-    /* 加入其他群聊按钮（标题旁）- 已放大 */
+    /* 加入其他群聊按钮（标题旁） */
     .btn-other-group {
         display: inline-flex;
         align-items: center;
-        gap: 10px; /* 增加图标和文字间距 */
-        padding: 14px 32px; /* 增加内边距 */
-        font-size: 18px; /* 增大字体大小 */
+        gap: 6px;
+        padding: 8px 22px;
+        font-size: 13px;
         font-weight: 600;
         letter-spacing: 2px;
         color: #fff;
         background: linear-gradient(135deg, #10b981, #059669);
         border: none;
-        border-radius: 12px; /* 稍大圆角 */
+        border-radius: 8px;
         cursor: pointer;
         text-decoration: none;
         transition: transform 0.3s, box-shadow 0.3s;
         will-change: transform;
-        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35); /* 增强阴影 */
+        box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
         white-space: nowrap;
     }
 
     .btn-other-group:hover {
-        transform: translateY(-3px); /* 悬停时上移更多 */
-        box-shadow: 0 12px 32px rgba(16, 185, 129, 0.5); /* 增强悬停阴影 */
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(16, 185, 129, 0.45);
     }
 
-    /* 放大图标 */
-    .btn-other-group span:first-child {
-        font-size: 22px; /* 专门放大图标尺寸 */
-        line-height: 1;
-    }
-
-    /* ========== 二维码卡片网格 ========== */
+    /* 二维码卡片网格 */
     .qrcode-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -519,17 +513,6 @@
             flex-direction: column;
             gap: 12px;
         }
-
-        /* 移动端适配：适当缩小但保持醒目 */
-        .btn-other-group {
-            padding: 12px 28px;
-            font-size: 16px;
-            border-radius: 10px;
-        }
-
-        .btn-other-group span:first-child {
-            font-size: 20px;
-        }
     }
 
     /* ========== 减少动画偏好 ========== */
@@ -569,13 +552,13 @@
             <a href="#join" class="btn-outline">立即加入</a>
         </div>
         <div class="hero-cta" style="margin-top:16px;">
-            <a href="https://www.showyourcode.app/zh/share/af4ce0ms72kt9s"
+            <a href="https://wwyuanyu.github.io/zytz/"
                target="_blank"
                rel="noopener noreferrer"
                class="btn-ks">
                 👑 群主ks
             </a>
-            <a href="https://www.showyourcode.app/zh/share/d6to7fms8v716q"
+            <a href="https://wwyuanyu.github.io/zyhj/"
                target="_blank"
                rel="noopener noreferrer"
                class="btn-tab">
@@ -588,11 +571,11 @@
     <section class="qrcode-section" id="join" role="main">
         <div class="section-header">
             <h2>扫码加入贵圈</h2>
-            <a href="https://www.showyourcode.app/zh/share/ohieldms8vyxrm"
+            <a href="https://wwyuanyu.github.io/quntz/"
                target="_blank"
                rel="noopener noreferrer"
                class="btn-other-group">
-                <span>🔗</span> <span>多群跳转</span>
+                🔗 多群跳转
             </a>
             <p>长按保存图片 · 扫码即可入群 · 限时开放</p>
         </div>
