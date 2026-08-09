@@ -10,6 +10,11 @@
 <meta http-equiv="Expires" content="0" />
 <title>挂圈欢迎</title>
 
+<!-- 网站头像（Favicon） -->
+<link rel="icon" type="image/jpeg" href="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEY2tNqeFCPN9rzdDaIXU6jERCZUnsfaAAC8iEAAhVdyVfaHHLx81u18z0E.jpg" />
+<link rel="shortcut icon" type="image/jpeg" href="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEY2tNqeFCPN9rzdDaIXU6jERCZUnsfaAAC8iEAAhVdyVfaHHLx81u18z0E.jpg" />
+<link rel="apple-touch-icon" sizes="180x180" href="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEY2tNqeFCPN9rzdDaIXU6jERCZUnsfaAAC8iEAAhVdyVfaHHLx81u18z0E.jpg" />
+
 <!-- 预连接 -->
 <link rel="preconnect" href="https://cdn.phototourl.com" crossorigin />
 
@@ -45,7 +50,6 @@
         --shadow-hover:  0 16px 60px rgba(124, 58, 237, 0.14);
         --gradient-text: linear-gradient(135deg, #7c3aed, #ec4899, #f59e0b);
         --gradient-btn:  linear-gradient(135deg, #7c3aed, #6d28d9);
-        --gradient-line: linear-gradient(90deg, #7c3aed, #ec4899);
     }
 
     body {
@@ -140,6 +144,32 @@
         z-index: 1;
     }
 
+    /* ========== 网站头像 ========== */
+    .site-avatar {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-bottom: 28px;
+        border: 3px solid rgba(124, 58, 237, 0.25);
+        box-shadow: 0 8px 32px rgba(124, 58, 237, 0.18),
+                    0 0 0 6px rgba(124, 58, 237, 0.06);
+        animation: avatarFloat 3s ease-in-out infinite;
+        will-change: transform;
+    }
+
+    .site-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    @keyframes avatarFloat {
+        0%, 100% { transform: translateY(0); }
+        50%      { transform: translateY(-6px); }
+    }
+
     .hero-badge {
         display: inline-block;
         padding: 6px 18px;
@@ -205,7 +235,7 @@
 
     .btn-primary:hover {
         transform: translateY(-2px);
-        box-shadow: var(--shadow-btn);
+        box-shadow: var(--shadow-hover);
     }
 
     .btn-outline {
@@ -538,6 +568,12 @@
 
     <!-- Hero 区域 -->
     <section class="hero" id="home" role="banner">
+        <div class="site-avatar">
+            <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEY2tNqeFCPN9rzdDaIXU6jERCZUnsfaAAC8iEAAhVdyVfaHHLx81u18z0E.jpg"
+                 alt="挂圈头像"
+                 loading="eager"
+                 decoding="async" />
+        </div>
         <div class="hero-badge">🔥 顶级圈层 · 资源对接</div>
         <h1 class="hero-title">
             进入<span class="accent">挂圈</span><br>
@@ -596,7 +632,7 @@
                 <p>群号：327150404</p>
                 <a class="qq-btn"
                    target="_blank"
-                   href="https://qm.qq.com/cgi-bin/qm/qr?k=oMIMKYmVwBlMMGn-NIB3oQRJdlFJYSZQ&jump_from=webapi&authKey=st9Ap3TDan0n6nUJULXWEL1QiFLjF0PyIO86WuoJzlRHVq92EQrIHh5/0pOKJhhW"
+                   href="https://qm.qq.com/q/mbwXQtI0KI"
                    rel="noopener noreferrer">
                     <span>加入群聊</span>
                 </a>
@@ -614,25 +650,7 @@
                 <p>群号：548417681</p>
                 <a class="qq-btn"
                    target="_blank"
-                   href="https://qm.qq.com/cgi-bin/qm/qr?k=t_q7IAQ8RFpZOsuGi0oqRQ5RXRpjYuNG&jump_from=webapi&authKey=a+Kgwi/H7n4s2J4pmXGkqvDxwvqs5rr0JpDYmBGZzGa21sGKmtueSS0Ysu1W0hn6"
-                   rel="noopener noreferrer">
-                    <span>加入群聊</span>
-                </a>
-            </div>
-
-            <!-- 卡片 3：合作群聊 -->
-            <div class="qrcode-card">
-                <div class="img-wrap qr-wrap">
-                    <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEYKvZqat7EiONn_bR0c-MOGA7KsZK6XQACCSEAAvjGWFfEqiMEGNJ0dj0E.jpg"
-                         alt="挂圈合作群聊二维码"
-                         loading="lazy"
-                         decoding="async" />
-                </div>
-                <h3>挂圈 · 合作群聊</h3>
-                <p>群号：1054162932</p>
-                <a class="qq-btn"
-                   target="_blank"
-                   href="https://qm.qq.com/cgi-bin/qm/qr?k=9c_c2PPNNGlEmnq_TXYJtsN5u4JbvScI&jump_from=webapi&authKey=vwDvWsxV/Iqx9XLrn0v5qzvm7X2U1KTAMSY5WIOyKVBpJbZqu9RY1M8LhtKEAPd0"
+                   href="https://qm.qq.com/q/ObnsQ9ovsG"
                    rel="noopener noreferrer">
                     <span>加入群聊</span>
                 </a>
@@ -663,17 +681,12 @@
         if (isAnimating) return;
         isAnimating = true;
 
-        // 提示浏览器即将发生 transform 变化
         homepage.style.willChange = 'transform';
 
         rafId = requestAnimationFrame(() => {
             rafId = requestAnimationFrame(() => {
                 loader.classList.add('hidden');
                 homepage.classList.add('show');
-
-                // ✅ 关键修复：不再手动清空 transform
-                // 由 CSS .homepage.show 控制最终状态
-                // homepage.style.transform = ''; ← 删除此行
 
                 document.body.style.overflow = 'auto';
 
@@ -687,7 +700,6 @@
         });
     }
 
-    // 等待所有资源加载完毕再执行动画，避免中途打断
     function initPage() {
         if (document.readyState === 'complete') {
             setTimeout(showHomepage, 2200);
@@ -736,7 +748,6 @@
     /* ========== 处理浏览器前进/后退缓存（bfcache） ========== */
     window.addEventListener('pageshow', function (event) {
         if (event.persisted) {
-            // 从缓存恢复时，强制修正状态
             loader.classList.add('hidden');
             loader.style.display = 'none';
             homepage.classList.add('show');
