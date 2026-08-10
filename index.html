@@ -518,6 +518,41 @@
         box-shadow: 0 8px 28px rgba(239, 68, 68, 0.45);
     }
 
+    /* ========== 保存图片按钮 ========== */
+    .btn-save-img {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 36px;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 3px;
+        color: #fff;
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: transform 0.3s, box-shadow 0.3s;
+        will-change: transform;
+        box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+        margin-top: 20px;
+    }
+
+    .btn-save-img:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(99, 102, 241, 0.45);
+    }
+
+    .btn-save-img:active {
+        transform: translateY(0);
+    }
+
+    .btn-save-img.saving {
+        opacity: 0.7;
+        cursor: wait;
+    }
+
     /* ========== 赞助码区域 ========== */
     .sponsor-section {
         padding: 80px 24px;
@@ -973,6 +1008,9 @@
             </div>
             <h3>感谢您的支持</h3>
             <p>扫一扫上方赞助码<br>您的鼓励是我们持续更新的最大动力</p>
+            <button type="button" class="btn-save-img" id="saveSponsorImg">
+                💾 保存图片
+            </button>
         </div>
     </section>
 
@@ -1025,6 +1063,95 @@
             e.preventDefault();
             enterHomepage();
         }
+    });
+})();
+
+/* ========== 保存赞助码图片 ========== */
+(function () {
+    var saveBtn = document.getElementById('saveSponsorImg');
+    if (!saveBtn) return;
+
+    var sponsorImg = document.querySelector('.sponsor-card .img-wrap img');
+    if (!sponsorImg) return;
+
+    saveBtn.addEventListener('click', function () {
+        // 防止重复点击
+        if (saveBtn.classList.contains('saving')) return;
+        saveBtn.classList.add('saving');
+        var originalText = saveBtn.innerHTML;
+        saveBtn.innerHTML = '⏳ 保存中...';
+
+        var imgUrl = sponsorImg.src;
+        var filename = '赞助码.png';
+
+        // 方法1：尝试通过 canvas 方式下载（处理跨域）
+        function downloadViaCanvas() {
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+            var img = new Image();
+            img.crossOrigin = 'anonymous';
+
+            img.onload = function () {
+                canvas.width = img.naturalWidth;
+                canvas.height = img.naturalHeight;
+                ctx.drawImage(img, 0, 0);
+
+                try {
+                    var dataUrl = canvas.toDataURL('image/png');
+                    triggerDownload(dataUrl, filename);
+                    resetButton();
+                } catch (e) {
+                    // canvas 被污染（跨域限制），降级到方法2
+                    downloadViaLink();
+                }
+            };
+
+            img.onerror = function () {
+                // 图片加载失败，降级到方法2
+                downloadViaLink();
+            };
+
+            img.src = imgUrl;
+        }
+
+        // 方法2：直接通过 a 标签 + download 属性下载（兜底方案）
+        function downloadViaLink() {
+            // 先尝试 fetch 获取 blob（现代浏览器）
+            fetch(imgUrl, { mode: 'cors' })
+                .then(function (res) {
+                    if (!res.ok) throw new Error('network response was not ok');
+                    return res.blob();
+                })
+                .then(function (blob) {
+                    var blobUrl = URL.createObjectURL(blob);
+                    triggerDownload(blobUrl, filename);
+                    setTimeout(function () { URL.revokeObjectURL(blobUrl); }, 1000);
+                    resetButton();
+                })
+                .catch(function () {
+                    // 最终兜底：直接打开图片（用户可手动长按/右键保存）
+                    triggerDownload(imgUrl, filename);
+                    resetButton();
+                });
+        }
+
+        function triggerDownload(href, name) {
+            var a = document.createElement('a');
+            a.href = href;
+            a.download = name;
+            a.rel = 'noopener noreferrer';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        function resetButton() {
+            saveBtn.classList.remove('saving');
+            saveBtn.innerHTML = originalText;
+        }
+
+        // 优先尝试 canvas 方式，失败自动降级
+        downloadViaCanvas();
     });
 })();
 
