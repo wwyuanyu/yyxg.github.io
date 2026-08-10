@@ -56,59 +56,188 @@
         font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", sans-serif;
         background: var(--bg-primary);
         color: var(--text-primary);
-        overflow: hidden;
         overscroll-behavior: none;
     }
 
-    /* ========== 进入动画层 ========== */
-    .loader {
+    /* ============================================================
+       ===== 入口页（进入动画 + 点击进入） ========================
+       ============================================================ */
+    .entrance-page {
         position: fixed;
         inset: 0;
+        z-index: 9999;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
-        z-index: 9999;
-        background: linear-gradient(160deg, #faf9ff 0%, #f3f0ff 50%, #ede9fe 100%);
-        transition: transform 1s cubic-bezier(0.76, 0, 0.24, 1);
+        text-align: center;
+        padding: 24px;
+        background: linear-gradient(160deg, #faf9ff 0%, #f5f3ff 40%, #ede9fe 100%);
+        overflow: hidden;
+        transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    /* 背景光晕 */
+    .entrance-page::before {
+        content: "";
+        position: absolute;
+        top: -160px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 720px;
+        height: 720px;
+        background: radial-gradient(circle, rgba(124, 58, 237, 0.10) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .entrance-page > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    /* 入口页头像 */
+    .entrance-avatar {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-bottom: 32px;
+        border: 3px solid rgba(124, 58, 237, 0.25);
+        box-shadow: 0 8px 40px rgba(124, 58, 237, 0.22),
+                    0 0 0 8px rgba(124, 58, 237, 0.06);
+        animation: avatarFloat 3s ease-in-out infinite;
         will-change: transform;
     }
 
-    .loader.hidden {
-        transform: translateY(-100%);
+    .entrance-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    @keyframes avatarFloat {
+        0%, 100% { transform: translateY(0); }
+        50%      { transform: translateY(-8px); }
+    }
+
+    .entrance-badge {
+        display: inline-block;
+        padding: 6px 20px;
+        border: 1px solid rgba(124, 58, 237, 0.25);
+        border-radius: 20px;
+        font-size: 13px;
+        color: var(--accent-purple);
+        letter-spacing: 3px;
+        margin-bottom: 24px;
+        background: rgba(124, 58, 237, 0.06);
+        font-weight: 500;
+    }
+
+    .entrance-title {
+        font-size: clamp(36px, 6vw, 64px);
+        font-weight: 800;
+        letter-spacing: 8px;
+        color: var(--text-primary);
+        line-height: 1.25;
+        margin-bottom: 20px;
+    }
+
+    .entrance-title .accent {
+        background: var(--gradient-text);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .entrance-subtitle {
+        font-size: clamp(15px, 2vw, 18px);
+        color: var(--text-secondary);
+        letter-spacing: 3px;
+        margin-bottom: 48px;
+        max-width: 520px;
+        line-height: 1.8;
+    }
+
+    /* 进入按钮 */
+    .entrance-btn {
+        position: relative;
+        padding: 16px 56px;
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 4px;
+        color: #fff;
+        background: var(--gradient-btn);
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+        will-change: transform;
+        box-shadow: 0 6px 20px rgba(124, 58, 237, 0.35);
+        overflow: hidden;
+    }
+
+    .entrance-btn::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            120deg,
+            transparent 0%,
+            rgba(255, 255, 255, 0.25) 50%,
+            transparent 100%
+        );
+        transition: left 0.6s ease;
+    }
+
+    .entrance-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 36px rgba(124, 58, 237, 0.45);
+    }
+
+    .entrance-btn:hover::after {
+        left: 100%;
+    }
+
+    .entrance-btn:active {
+        transform: translateY(-1px);
+    }
+
+    .entrance-hint {
+        margin-top: 28px;
+        font-size: 12px;
+        color: var(--text-muted);
+        letter-spacing: 2px;
+    }
+
+    /* 入口页隐藏态 */
+    .entrance-page.is-hidden {
+        opacity: 0;
+        visibility: hidden;
         pointer-events: none;
     }
 
-    .logo {
-        font-size: 60px;
-        font-weight: 700;
-        letter-spacing: 16px;
-        color: var(--accent-purple);
-        text-shadow: 0 0 30px rgba(124, 58, 237, .25), 0 0 60px rgba(124, 58, 237, .12);
-        opacity: 0;
-        transform: translateY(40px);
-        animation: logoSlideUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
-
-    @keyframes logoSlideUp {
-        0%   { opacity: 0; transform: translateY(40px); }
-        60%  { opacity: 1; transform: translateY(0); }
-        100% { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ========== 主页容器 ========== */
+    /* ============================================================
+       ===== 主页容器 ============================================
+       ============================================================ */
     .homepage {
         position: relative;
         z-index: 10;
-        opacity: 1;
-        transform: translateY(100vh);
-        transition: transform 1s cubic-bezier(0.76, 0, 0.24, 1);
         overflow-y: auto;
-        height: 100vh;
+        min-height: 100vh;
         background: var(--bg-primary);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.8s ease 0.2s, visibility 0.8s ease 0.2s;
     }
 
-    .homepage.show {
-        transform: translateY(0);
+    .homepage.is-visible {
+        opacity: 1;
+        visibility: visible;
     }
 
     /* ========== Hero 区域 ========== */
@@ -163,11 +292,6 @@
         height: 100%;
         object-fit: cover;
         display: block;
-    }
-
-    @keyframes avatarFloat {
-        0%, 100% { transform: translateY(0); }
-        50%      { transform: translateY(-6px); }
     }
 
     .hero-badge {
@@ -543,6 +667,17 @@
             flex-direction: column;
             gap: 12px;
         }
+
+        /* 入口页移动端微调 */
+        .entrance-avatar {
+            width: 100px;
+            height: 100px;
+        }
+
+        .entrance-btn {
+            padding: 14px 40px;
+            font-size: 15px;
+        }
     }
 
     /* ========== 减少动画偏好 ========== */
@@ -558,9 +693,26 @@
 </head>
 <body>
 
-<!-- ===== 进入动画 ===== -->
-<div class="loader" id="loader" aria-hidden="false">
-    <div class="logo">挂圈欢迎</div>
+<!-- ===== 入口页 ===== -->
+<div class="entrance-page" id="entrancePage">
+    <div class="entrance-avatar">
+        <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEY2tNqeFCPN9rzdDaIXU6jERCZUnsfaAAC8iEAAhVdyVfaHHLx81u18z0E.jpg"
+             alt="挂圈头像"
+             loading="eager"
+             decoding="async" />
+    </div>
+    <div class="entrance-badge">🔥 顶级圈层 · 资源对接</div>
+    <h1 class="entrance-title">
+        欢迎来到<span class="accent">挂圈</span>
+    </h1>
+    <p class="entrance-subtitle">
+        资本 · 流量 · 顶流 · 商务<br>
+        这里只连接最优质的人与资源
+    </p>
+    <button class="entrance-btn" id="entranceBtn" type="button">
+        点 击 进 入
+    </button>
+    <p class="entrance-hint">点击上方按钮进入主页</p>
 </div>
 
 <!-- ===== 主页 ===== -->
@@ -656,6 +808,24 @@
                 </a>
             </div>
 
+            <!-- 卡片 3：妤与渊共建迷你群3群 -->
+            <div class="qrcode-card">
+                <div class="img-wrap qr-wrap">
+                    <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEY22ZqeGDVMsmh3m6U368qqg9uPDBy_AACrCIAAhVdyVdqcQo2GYsynj0E.jpg"
+                         alt="妤与渊共建迷你群3群头像"
+                         loading="lazy"
+                         decoding="async" />
+                </div>
+                <h3>妤与渊共建迷你群3群</h3>
+                <p>群号：197887848</p>
+                <a class="qq-btn"
+                   target="_blank"
+                   href="https://qm.qq.com/q/I2v3RFk7QY"
+                   rel="noopener noreferrer">
+                    <span>加入群聊</span>
+                </a>
+            </div>
+
         </div>
     </section>
 
@@ -667,95 +837,74 @@
 </div>
 
 <script>
-/* ========== 性能优化：rAF 管理动画时序 ========== */
+/* ========== 入口页逻辑 ========== */
 (function () {
-    'use strict';
+    var STORAGE_KEY = 'guaquan_entered';
+    var entrancePage = document.getElementById('entrancePage');
+    var homepage = document.getElementById('homepage');
+    var entranceBtn = document.getElementById('entranceBtn');
 
-    const loader   = document.getElementById('loader');
-    const homepage = document.getElementById('homepage');
-
-    let rafId = null;
-    let isAnimating = false;
-
-    function showHomepage() {
-        if (isAnimating) return;
-        isAnimating = true;
-
-        homepage.style.willChange = 'transform';
-
-        rafId = requestAnimationFrame(() => {
-            rafId = requestAnimationFrame(() => {
-                loader.classList.add('hidden');
-                homepage.classList.add('show');
-
-                document.body.style.overflow = 'auto';
-
-                setTimeout(() => {
-                    loader.style.display = 'none';
-                    loader.setAttribute('aria-hidden', 'true');
-                    homepage.style.willChange = 'auto';
-                    isAnimating = false;
-                }, 1000);
-            });
-        });
+    // 如果当前会话已经点过"进入"，直接显示主页、隐藏入口页
+    if (sessionStorage.getItem(STORAGE_KEY) === '1') {
+        entrancePage.classList.add('is-hidden');
+        homepage.classList.add('is-visible');
+        return;
     }
 
-    function initPage() {
-        if (document.readyState === 'complete') {
-            setTimeout(showHomepage, 2200);
-        } else {
-            window.addEventListener('load', () => {
-                setTimeout(showHomepage, 2200);
-            });
-        }
+    function enterHomepage() {
+        // 记录：本次会话内不再显示入口页
+        try {
+            sessionStorage.setItem(STORAGE_KEY, '1');
+        } catch (e) { /* 隐私模式兼容 */ }
+
+        // 入口页淡出
+        entrancePage.classList.add('is-hidden');
+        // 主页淡入（带延迟，等入口页半透明时再显现）
+        homepage.classList.add('is-visible');
+
+        // 动画结束后彻底移除入口页的渲染
+        setTimeout(function () {
+            entrancePage.style.display = 'none';
+        }, 900);
     }
 
-    initPage();
+    // 点击按钮进入
+    entranceBtn.addEventListener('click', enterHomepage);
 
-    /* ========== 图片加载失败兜底 ========== */
-    document.addEventListener('error', function (e) {
-        if (!e.target.matches('.qrcode-card img')) return;
-
-        const wrap = e.target.parentElement;
-        if (wrap) {
-            wrap.innerHTML = `
-                <div style="
-                    width:100%;
-                    height:100%;
-                    display:flex;
-                    align-items:center;
-                    justify-content:center;
-                    background:rgba(124,58,237,0.05);
-                    color:#a09bb5;
-                    font-size:14px;
-                    letter-spacing:2px;
-                    border-radius:24px;
-                ">
-                    图片加载失败
-                </div>
-            `;
-        }
-    }, true);
-
-    /* ========== 页面隐藏时暂停动画 ========== */
-    document.addEventListener('visibilitychange', function () {
-        if (document.hidden && rafId) {
-            cancelAnimationFrame(rafId);
-            isAnimating = false;
+    // 也支持按 Enter / Space 键进入
+    document.addEventListener('keydown', function (e) {
+        if (entrancePage.classList.contains('is-hidden')) return;
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            enterHomepage();
         }
     });
-
-    /* ========== 处理浏览器前进/后退缓存（bfcache） ========== */
-    window.addEventListener('pageshow', function (event) {
-        if (event.persisted) {
-            loader.classList.add('hidden');
-            loader.style.display = 'none';
-            homepage.classList.add('show');
-            document.body.style.overflow = 'auto';
-        }
-    });
-
 })();
+
+/* ========== 图片加载失败兜底 ========== */
+document.addEventListener('error', function (e) {
+    if (!e.target.matches('.qrcode-card img')) return;
+
+    const wrap = e.target.parentElement;
+    if (wrap) {
+        wrap.innerHTML = `
+            <div style="
+                width:100%;
+                height:100%;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                background:rgba(124,58,237,0.05);
+                color:#a09bb5;
+                font-size:14px;
+                letter-spacing:2px;
+                border-radius:24px;
+            ">
+                图片加载失败
+            </div>
+        `;
+    }
+}, true);
 </script>
 
 </body>
