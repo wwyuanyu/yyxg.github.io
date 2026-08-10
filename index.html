@@ -493,6 +493,132 @@
         box-shadow: 0 8px 28px rgba(16, 185, 129, 0.45);
     }
 
+    /* ========== 赞助按钮 ========== */
+    .btn-sponsor {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 14px 40px;
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 3px;
+        color: #fff;
+        background: linear-gradient(135deg, #f59e0b, #ef4444);
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: transform 0.3s, box-shadow 0.3s;
+        will-change: transform;
+        box-shadow: 0 4px 14px rgba(245, 158, 11, 0.35);
+    }
+
+    .btn-sponsor:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(239, 68, 68, 0.45);
+    }
+
+    /* ========== 赞助码区域 ========== */
+    .sponsor-section {
+        padding: 80px 24px;
+        max-width: 800px;
+        margin: 0 auto;
+        contain: layout style;
+        text-align: center;
+    }
+
+    .sponsor-section .section-header {
+        margin-bottom: 40px;
+    }
+
+    .sponsor-section .section-header h2 {
+        font-size: clamp(28px, 4vw, 40px);
+        font-weight: 700;
+        letter-spacing: 6px;
+        color: var(--text-primary);
+    }
+
+    .sponsor-section .section-header p {
+        font-size: 15px;
+        color: var(--text-muted);
+        letter-spacing: 3px;
+        width: 100%;
+        margin-top: 8px;
+    }
+
+    .sponsor-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-light);
+        border-radius: 18px;
+        padding: 36px 28px;
+        text-align: center;
+        transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s;
+        overflow: hidden;
+        will-change: transform;
+        box-shadow: var(--shadow-card);
+    }
+
+    .sponsor-card:hover {
+        transform: translateY(-6px);
+        border-color: var(--border-hover);
+        box-shadow: var(--shadow-hover);
+    }
+
+    .sponsor-card .img-wrap {
+        width: 280px;
+        max-width: 100%;
+        aspect-ratio: 1 / 1;
+        border-radius: 24px;
+        overflow: hidden;
+        background: #fff;
+        margin: 0 auto 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--border-light);
+        padding: 12px;
+    }
+
+    .sponsor-card .img-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+        transition: transform 0.5s;
+        border-radius: 12px;
+    }
+
+    .sponsor-card:hover .img-wrap img {
+        transform: scale(1.03);
+    }
+
+    .sponsor-card h3 {
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--text-primary);
+        letter-spacing: 2px;
+        margin-bottom: 8px;
+    }
+
+    .sponsor-card p {
+        font-size: 14px;
+        color: var(--text-muted);
+        letter-spacing: 1px;
+        margin-bottom: 0;
+        line-height: 1.8;
+    }
+
+    .sponsor-heart {
+        font-size: 42px;
+        margin-bottom: 16px;
+        animation: heartBeat 1.5s ease-in-out infinite;
+    }
+
+    @keyframes heartBeat {
+        0%, 100% { transform: scale(1); }
+        50%      { transform: scale(1.12); }
+    }
+
     /* 二维码卡片网格 */
     .qrcode-grid {
         display: grid;
@@ -738,6 +864,7 @@
         <div class="hero-cta">
             <a href="#join" class="btn-primary">扫码入群</a>
             <a href="#join" class="btn-outline">立即加入</a>
+            <a href="#sponsor" class="btn-sponsor">💖 赞助一下下</a>
         </div>
         <div class="hero-cta" style="margin-top:16px;">
             <a href="https://wwyuanyu.github.io/zytz/"
@@ -826,6 +953,26 @@
                 </a>
             </div>
 
+        </div>
+    </section>
+
+    <!-- 赞助码区域 -->
+    <section class="sponsor-section" id="sponsor" role="main">
+        <div class="section-header">
+            <h2>💖 赞助一下下</h2>
+            <p>您的每一份支持都是我们前进的动力 · 扫码即可赞助</p>
+        </div>
+
+        <div class="sponsor-card">
+            <div class="sponsor-heart">❤️</div>
+            <div class="img-wrap">
+                <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEY5XJqeXWoeDeEA5koX_tnyTJOUM5I7gAC3CYAAhVd0Vc8NYWWAAH5UV49BA.png"
+                     alt="赞助码"
+                     loading="lazy"
+                     decoding="async" />
+            </div>
+            <h3>感谢您的支持</h3>
+            <p>扫一扫上方赞助码<br>您的鼓励是我们持续更新的最大动力</p>
         </div>
     </section>
 
