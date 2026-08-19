@@ -152,6 +152,170 @@
         100% { transform: translate(0, 0); opacity: 0.3; }
     }
 
+    /* ============================================================
+       ===== 流星特效 ============================================
+       ============================================================ */
+    .meteor-layer {
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        overflow: hidden;
+    }
+
+    /* 单个流星通用样式 */
+    .meteor {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: #fff;
+        border-radius: 50%;
+        box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.8),
+                    0 0 12px 2px rgba(167, 139, 250, 0.4);
+        opacity: 0;
+        animation: meteorFall linear infinite;
+    }
+
+    /* 流星拖尾（用 ::before 模拟） */
+    .meteor::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 150px;
+        height: 1px;
+        background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.9) 0%,
+            rgba(200, 180, 255, 0.5) 40%,
+            transparent 100%
+        );
+        transform: translate(0, -50%) rotate(-15deg);
+        transform-origin: right center;
+    }
+
+    /* 流星 1：左上 → 右下 */
+    .meteor-1 {
+        top: -10%;
+        left: 15%;
+        animation-duration: 3.5s;
+        animation-delay: 2s;
+    }
+
+    /* 流星 2：中上 → 右下（粉紫色调） */
+    .meteor-2 {
+        top: -15%;
+        left: 55%;
+        animation-duration: 4s;
+        animation-delay: 6s;
+        width: 2.5px;
+        height: 2.5px;
+    }
+
+    .meteor-2::before {
+        width: 200px;
+        background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.85) 0%,
+            rgba(244, 114, 182, 0.4) 40%,
+            transparent 100%
+        );
+    }
+
+    /* 流星 3：右上 → 左下 */
+    .meteor-3 {
+        top: -5%;
+        left: 80%;
+        animation-duration: 3s;
+        animation-delay: 10s;
+    }
+
+    .meteor-3::before {
+        width: 120px;
+        background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.9) 0%,
+            rgba(167, 139, 250, 0.5) 40%,
+            transparent 100%
+        );
+    }
+
+    /* 流星 4：左侧 → 右下（细小流星） */
+    .meteor-4 {
+        top: 10%;
+        left: 35%;
+        animation-duration: 4.5s;
+        animation-delay: 14s;
+        width: 1.5px;
+        height: 1.5px;
+    }
+
+    .meteor-4::before {
+        width: 100px;
+        background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.8) 0%,
+            rgba(180, 160, 255, 0.4) 40%,
+            transparent 100%
+        );
+    }
+
+    /* 流星 5：小流星，快速划过 */
+    .meteor-5 {
+        top: -20%;
+        left: 70%;
+        animation-duration: 2.5s;
+        animation-delay: 18s;
+        width: 1.5px;
+        height: 1.5px;
+    }
+
+    .meteor-5::before {
+        width: 80px;
+        background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.7) 0%,
+            rgba(200, 180, 255, 0.3) 40%,
+            transparent 100%
+        );
+    }
+
+    @keyframes meteorFall {
+        0% {
+            opacity: 0;
+            transform: translate(0, 0);
+        }
+        5% {
+            opacity: 1;
+        }
+        70% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+            transform: translate(400px, 400px);
+        }
+    }
+
+    /* 流星坠落时拖尾跟随旋转 */
+    .meteor::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 2px;
+        height: 2px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
+    }
+
+    /* 亮色模式隐藏流星 */
+    body.theme-light .meteor-layer {
+        display: none;
+    }
+
     /* 亮色模式隐藏星空 */
     body.theme-light .stars-bg {
         display: none;
@@ -243,6 +407,82 @@
         top: -160px;
         left: 50%;
         transform: translateX(-50%);
+    }
+
+    /* 入口页流星 */
+    .entrance-meteor {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: #fff;
+        border-radius: 50%;
+        box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.9),
+                    0 0 16px 4px rgba(167, 139, 250, 0.5);
+        opacity: 0;
+        z-index: 1;
+        animation: entranceMeteorFall 6s ease-in infinite;
+    }
+
+    .entrance-meteor::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 0;
+        width: 180px;
+        height: 1px;
+        background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.9) 0%,
+            rgba(200, 180, 255, 0.5) 40%,
+            transparent 100%
+        );
+        transform: translate(0, -50%) rotate(-15deg);
+        transform-origin: right center;
+    }
+
+    .entrance-meteor-1 {
+        top: 5%;
+        left: 20%;
+        animation-delay: 1s;
+    }
+
+    .entrance-meteor-2 {
+        top: 15%;
+        left: 60%;
+        animation-delay: 4s;
+        width: 2.5px;
+        height: 2.5px;
+    }
+
+    .entrance-meteor-2::before {
+        width: 220px;
+        background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.85) 0%,
+            rgba(244, 114, 182, 0.45) 40%,
+            transparent 100%
+        );
+    }
+
+    @keyframes entranceMeteorFall {
+        0% {
+            opacity: 0;
+            transform: translate(0, 0);
+        }
+        5% {
+            opacity: 1;
+        }
+        60% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+            transform: translate(500px, 500px);
+        }
+    }
+
+    body.theme-light .entrance-meteor {
+        display: none;
     }
 
     /* 入口页光晕 */
@@ -474,6 +714,103 @@
 
     body.theme-light .hero::after {
         background: radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
+    }
+
+    /* Hero 区域流星 */
+    .hero-meteor {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: #fff;
+        border-radius: 50%;
+        box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.8),
+                    0 0 14px 3px rgba(167, 139, 250, 0.45);
+        opacity: 0;
+        z-index: 1;
+        animation: heroMeteorFall linear infinite;
+    }
+
+    .hero-meteor::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        right: 0;
+        width: 160px;
+        height: 1px;
+        background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.9) 0%,
+            rgba(200, 180, 255, 0.5) 40%,
+            transparent 100%
+        );
+        transform: translate(0, -50%) rotate(-15deg);
+        transform-origin: right center;
+    }
+
+    .hero-meteor-1 {
+        top: -5%;
+        left: 25%;
+        animation-duration: 3s;
+        animation-delay: 3s;
+    }
+
+    .hero-meteor-2 {
+        top: 10%;
+        left: 65%;
+        animation-duration: 3.5s;
+        animation-delay: 8s;
+        width: 2.5px;
+        height: 2.5px;
+    }
+
+    .hero-meteor-2::before {
+        width: 200px;
+        background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.85) 0%,
+            rgba(244, 114, 182, 0.4) 40%,
+            transparent 100%
+        );
+    }
+
+    .hero-meteor-3 {
+        top: -10%;
+        left: 45%;
+        animation-duration: 2.8s;
+        animation-delay: 13s;
+        width: 1.5px;
+        height: 1.5px;
+    }
+
+    .hero-meteor-3::before {
+        width: 100px;
+        background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.8) 0%,
+            rgba(180, 160, 255, 0.4) 40%,
+            transparent 100%
+        );
+    }
+
+    @keyframes heroMeteorFall {
+        0% {
+            opacity: 0;
+            transform: translate(0, 0);
+        }
+        5% {
+            opacity: 1;
+        }
+        70% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+            transform: translate(450px, 450px);
+        }
+    }
+
+    body.theme-light .hero-meteor {
+        display: none;
     }
 
     .hero > * {
@@ -1141,6 +1478,15 @@
 <!-- 星空背景层 -->
 <div class="stars-bg" aria-hidden="true"></div>
 
+<!-- 流星特效层 -->
+<div class="meteor-layer" aria-hidden="true">
+    <div class="meteor meteor-1"></div>
+    <div class="meteor meteor-2"></div>
+    <div class="meteor meteor-3"></div>
+    <div class="meteor meteor-4"></div>
+    <div class="meteor meteor-5"></div>
+</div>
+
 <!-- 昼夜切换按钮 -->
 <button class="theme-toggle" id="themeToggle" type="button" title="切换昼夜模式" aria-label="切换昼夜模式">
     <span class="icon-moon">🌙</span>
@@ -1149,6 +1495,9 @@
 
 <!-- ===== 入口页 ===== -->
 <div class="entrance-page" id="entrancePage">
+    <!-- 入口页流星 -->
+    <div class="entrance-meteor entrance-meteor-1"></div>
+    <div class="entrance-meteor entrance-meteor-2"></div>
     <div class="entrance-avatar">
         <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEY2tNqeFCPN9rzdDaIXU6jERCZUnsfaAAC8iEAAhVdyVfaHHLx81u18z0E.jpg"
              alt="挂圈头像"
@@ -1174,6 +1523,10 @@
 
     <!-- Hero 区域 -->
     <section class="hero" id="home" role="banner">
+        <!-- Hero 流星 -->
+        <div class="hero-meteor hero-meteor-1"></div>
+        <div class="hero-meteor hero-meteor-2"></div>
+        <div class="hero-meteor hero-meteor-3"></div>
         <div class="site-avatar">
             <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEY2tNqeFCPN9rzdDaIXU6jERCZUnsfaAAC8iEAAhVdyVfaHHLx81u18z0E.jpg"
                  alt="挂圈头像"
