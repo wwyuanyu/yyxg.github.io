@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="theme-color" content="#f8f7ff" />
+<meta name="theme-color" content="#0a0815" />
 <!-- 防止前进/后退缓存导致状态异常 -->
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 <meta http-equiv="Pragma" content="no-cache" />
@@ -32,11 +32,51 @@
         -moz-osx-font-smoothing: grayscale;
     }
 
-    /* ========== 亮色主题变量 ========== */
+    /* ========== 暗色主题（默认）蓝紫星空 ========== */
     :root {
+        /* 星空背景色 */
+        --bg-primary:    #0a0815;
+        --bg-secondary:  #110d22;
+        --bg-card:       #15112a;
+        --bg-card-hover: #1c1735;
+
+        /* 文字颜色 */
+        --text-primary:  #e8e4ff;
+        --text-secondary:#a89fd6;
+        --text-muted:    #6b6399;
+
+        /* 强调色 */
+        --accent-purple: #a78bfa;
+        --accent-light:  #c4b5fd;
+        --accent-pink:   #f472b6;
+        --accent-amber:  #fbbf24;
+
+        /* 边框 & 阴影 */
+        --border-light:   rgba(167, 139, 250, 0.15);
+        --border-hover:  rgba(167, 139, 250, 0.45);
+        --shadow-card:   0 4px 24px rgba(0, 0, 0, 0.4), 0 0 40px rgba(124, 58, 237, 0.08);
+        --shadow-hover:  0 16px 60px rgba(0, 0, 0, 0.5), 0 0 60px rgba(167, 139, 250, 0.18);
+
+        /* 渐变 */
+        --gradient-text: linear-gradient(135deg, #a78bfa, #f472b6, #fbbf24);
+        --gradient-btn:  linear-gradient(135deg, #7c3aed, #5b21b6);
+        --gradient-stars: radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.8) 50%, transparent 50%),
+                          radial-gradient(1px 1px at 30% 60%, rgba(255,255,255,0.6) 50%, transparent 50%),
+                          radial-gradient(1.5px 1.5px at 50% 10%, rgba(200,180,255,0.9) 50%, transparent 50%),
+                          radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.5) 50%, transparent 50%),
+                          radial-gradient(1px 1px at 90% 80%, rgba(255,255,255,0.7) 50%, transparent 50%),
+                          radial-gradient(1.5px 1.5px at 20% 90%, rgba(180,160,255,0.8) 50%, transparent 50%),
+                          radial-gradient(1px 1px at 60% 30%, rgba(255,255,255,0.4) 50%, transparent 50%),
+                          radial-gradient(1px 1px at 80% 70%, rgba(200,180,255,0.6) 50%, transparent 50%);
+        --gradient-sky:  linear-gradient(160deg, #0a0815 0%, #0f0a25 30%, #160d33 60%, #0d0a20 100%);
+    }
+
+    /* ========== 亮色主题（切换后） ========== */
+    body.theme-light {
         --bg-primary:    #faf9ff;
         --bg-secondary:  #f3f0ff;
         --bg-card:       #ffffff;
+        --bg-card-hover: #faf8ff;
         --text-primary:  #1e1b2e;
         --text-secondary:#6b6388;
         --text-muted:    #a09bb5;
@@ -57,10 +97,104 @@
         background: var(--bg-primary);
         color: var(--text-primary);
         overscroll-behavior: none;
+        transition: background 0.5s ease, color 0.5s ease;
     }
 
     /* ============================================================
-       ===== 入口页（进入动画 + 点击进入） ========================
+       ===== 星空背景（暗色模式） ================================
+       ============================================================ */
+    .stars-bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background: var(--gradient-stars);
+        background-size: 100% 100%;
+        opacity: 0.6;
+        animation: twinkle 8s ease-in-out infinite;
+    }
+
+    .stars-bg::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: var(--gradient-sky);
+        z-index: -1;
+    }
+
+    /* 流星效果 */
+    .stars-bg::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(2px 2px at 15% 25%, rgba(255,255,255,0.9) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 45% 55%, rgba(200,180,255,0.7) 50%, transparent 50%),
+                    radial-gradient(1.5px 1.5px at 75% 15%, rgba(255,255,255,0.8) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 85% 65%, rgba(180,160,255,0.6) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 35% 85%, rgba(255,255,255,0.5) 50%, transparent 50%);
+        background-size: 100% 100%;
+        animation: meteor 12s ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+        0%, 100% { opacity: 0.5; }
+        50%      { opacity: 0.8; }
+    }
+
+    @keyframes meteor {
+        0%   { transform: translate(0, 0); opacity: 0.3; }
+        25%  { transform: translate(2%, -2%); opacity: 0.6; }
+        50%  { transform: translate(-1%, 1%); opacity: 0.4; }
+        75%  { transform: translate(1%, -1%); opacity: 0.7; }
+        100% { transform: translate(0, 0); opacity: 0.3; }
+    }
+
+    /* 亮色模式隐藏星空 */
+    body.theme-light .stars-bg {
+        display: none;
+    }
+
+    /* ============================================================
+       ===== 昼夜切换按钮 ========================================
+       ============================================================ */
+    .theme-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 10000;
+        width: 48px;
+        height: 48px;
+        border: 2px solid var(--border-light);
+        border-radius: 50%;
+        background: var(--bg-card);
+        color: var(--accent-purple);
+        font-size: 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(8px);
+    }
+
+    .theme-toggle:hover {
+        border-color: var(--accent-purple);
+        transform: scale(1.1);
+        box-shadow: 0 6px 24px rgba(167, 139, 250, 0.3);
+    }
+
+    .theme-toggle .icon-sun { display: none; }
+    .theme-toggle .icon-moon { display: block; }
+
+    body.theme-light .theme-toggle .icon-sun { display: block; }
+    body.theme-light .theme-toggle .icon-moon { display: none; }
+
+    /* ============================================================
+       ===== 入口页 ==============================================
        ============================================================ */
     .entrance-page {
         position: fixed;
@@ -72,13 +206,47 @@
         justify-content: center;
         text-align: center;
         padding: 24px;
-        background: linear-gradient(160deg, #faf9ff 0%, #f5f3ff 40%, #ede9fe 100%);
+        background: linear-gradient(160deg, #0a0815 0%, #0f0a25 30%, #160d33 60%, #0d0a20 100%);
         overflow: hidden;
         transition: opacity 0.8s ease, visibility 0.8s ease;
     }
 
-    /* 背景光晕 */
+    body.theme-light .entrance-page {
+        background: linear-gradient(160deg, #faf9ff 0%, #f5f3ff 40%, #ede9fe 100%);
+    }
+
+    /* 入口页星空 */
     .entrance-page::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.7) 50%, transparent 50%),
+                    radial-gradient(1.5px 1.5px at 30% 50%, rgba(200,180,255,0.8) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 50% 15%, rgba(255,255,255,0.5) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 70% 35%, rgba(255,255,255,0.6) 50%, transparent 50%),
+                    radial-gradient(1.5px 1.5px at 85% 75%, rgba(180,160,255,0.7) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 20% 85%, rgba(255,255,255,0.4) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 60% 90%, rgba(200,180,255,0.5) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 40% 65%, rgba(255,255,255,0.3) 50%, transparent 50%);
+        background-size: 100% 100%;
+        animation: twinkle 6s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    body.theme-light .entrance-page::before {
+        background: radial-gradient(circle, rgba(124, 58, 237, 0.10) 0%, transparent 70%);
+        background-size: auto;
+        animation: none;
+        width: 720px;
+        height: 720px;
+        top: -160px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    /* 入口页光晕 */
+    .entrance-page::after {
         content: "";
         position: absolute;
         top: -160px;
@@ -86,9 +254,13 @@
         transform: translateX(-50%);
         width: 720px;
         height: 720px;
-        background: radial-gradient(circle, rgba(124, 58, 237, 0.10) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, transparent 70%);
         pointer-events: none;
         z-index: 0;
+    }
+
+    body.theme-light .entrance-page::after {
+        background: radial-gradient(circle, rgba(124, 58, 237, 0.10) 0%, transparent 70%);
     }
 
     .entrance-page > * {
@@ -103,9 +275,10 @@
         border-radius: 50%;
         overflow: hidden;
         margin-bottom: 32px;
-        border: 3px solid rgba(124, 58, 237, 0.25);
-        box-shadow: 0 8px 40px rgba(124, 58, 237, 0.22),
-                    0 0 0 8px rgba(124, 58, 237, 0.06);
+        border: 3px solid rgba(167, 139, 250, 0.35);
+        box-shadow: 0 8px 40px rgba(167, 139, 250, 0.3),
+                    0 0 0 8px rgba(167, 139, 250, 0.08),
+                    0 0 60px rgba(124, 58, 237, 0.2);
         animation: avatarFloat 3s ease-in-out infinite;
         will-change: transform;
     }
@@ -125,14 +298,15 @@
     .entrance-badge {
         display: inline-block;
         padding: 6px 20px;
-        border: 1px solid rgba(124, 58, 237, 0.25);
+        border: 1px solid rgba(167, 139, 250, 0.3);
         border-radius: 20px;
         font-size: 13px;
         color: var(--accent-purple);
         letter-spacing: 3px;
         margin-bottom: 24px;
-        background: rgba(124, 58, 237, 0.06);
+        background: rgba(167, 139, 250, 0.1);
         font-weight: 500;
+        backdrop-filter: blur(4px);
     }
 
     .entrance-title {
@@ -142,6 +316,7 @@
         color: var(--text-primary);
         line-height: 1.25;
         margin-bottom: 20px;
+        text-shadow: 0 0 40px rgba(167, 139, 250, 0.3);
     }
 
     .entrance-title .accent {
@@ -174,7 +349,7 @@
         cursor: pointer;
         transition: transform 0.3s, box-shadow 0.3s;
         will-change: transform;
-        box-shadow: 0 6px 20px rgba(124, 58, 237, 0.35);
+        box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4), 0 0 40px rgba(124, 58, 237, 0.2);
         overflow: hidden;
     }
 
@@ -196,7 +371,7 @@
 
     .entrance-btn:hover {
         transform: translateY(-3px);
-        box-shadow: 0 12px 36px rgba(124, 58, 237, 0.45);
+        box-shadow: 0 12px 36px rgba(124, 58, 237, 0.5), 0 0 60px rgba(167, 139, 250, 0.3);
     }
 
     .entrance-btn:hover::after {
@@ -229,7 +404,7 @@
         z-index: 10;
         overflow-y: auto;
         min-height: 100vh;
-        background: var(--bg-primary);
+        background: transparent;
         opacity: 0;
         visibility: hidden;
         transition: opacity 0.8s ease 0.2s, visibility 0.8s ease 0.2s;
@@ -249,13 +424,42 @@
         justify-content: center;
         text-align: center;
         padding: 80px 24px 60px;
-        background: linear-gradient(160deg, #faf9ff 0%, #f5f3ff 40%, #ede9fe 100%);
+        background: transparent;
         position: relative;
         contain: layout style;
         overflow: hidden;
     }
 
+    /* Hero 区域星空 */
     .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(1px 1px at 15% 30%, rgba(255,255,255,0.6) 50%, transparent 50%),
+                    radial-gradient(1.5px 1.5px at 35% 70%, rgba(200,180,255,0.7) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 55% 20%, rgba(255,255,255,0.4) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 75% 50%, rgba(255,255,255,0.5) 50%, transparent 50%),
+                    radial-gradient(1.5px 1.5px at 90% 85%, rgba(180,160,255,0.6) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 25% 90%, rgba(255,255,255,0.3) 50%, transparent 50%),
+                    radial-gradient(1px 1px at 65% 45%, rgba(200,180,255,0.4) 50%, transparent 50%);
+        background-size: 100% 100%;
+        animation: twinkle 10s ease-in-out infinite;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    body.theme-light .hero::before {
+        background: radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
+        background-size: auto;
+        animation: none;
+        width: 600px;
+        height: 600px;
+        top: -120px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .hero::after {
         content: "";
         position: absolute;
         top: -120px;
@@ -263,9 +467,13 @@
         transform: translateX(-50%);
         width: 600px;
         height: 600px;
-        background: radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
+        background: radial-gradient(circle, rgba(124, 58, 237, 0.12) 0%, transparent 70%);
         pointer-events: none;
         z-index: 0;
+    }
+
+    body.theme-light .hero::after {
+        background: radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
     }
 
     .hero > * {
@@ -280,9 +488,10 @@
         border-radius: 50%;
         overflow: hidden;
         margin-bottom: 28px;
-        border: 3px solid rgba(124, 58, 237, 0.25);
-        box-shadow: 0 8px 32px rgba(124, 58, 237, 0.18),
-                    0 0 0 6px rgba(124, 58, 237, 0.06);
+        border: 3px solid rgba(167, 139, 250, 0.35);
+        box-shadow: 0 8px 32px rgba(167, 139, 250, 0.25),
+                    0 0 0 6px rgba(167, 139, 250, 0.08),
+                    0 0 50px rgba(124, 58, 237, 0.15);
         animation: avatarFloat 3s ease-in-out infinite;
         will-change: transform;
     }
@@ -297,14 +506,15 @@
     .hero-badge {
         display: inline-block;
         padding: 6px 18px;
-        border: 1px solid rgba(124, 58, 237, 0.25);
+        border: 1px solid rgba(167, 139, 250, 0.3);
         border-radius: 20px;
         font-size: 13px;
         color: var(--accent-purple);
         letter-spacing: 3px;
         margin-bottom: 28px;
-        background: rgba(124, 58, 237, 0.06);
+        background: rgba(167, 139, 250, 0.1);
         font-weight: 500;
+        backdrop-filter: blur(4px);
     }
 
     .hero-title {
@@ -314,6 +524,7 @@
         color: var(--text-primary);
         line-height: 1.2;
         margin-bottom: 24px;
+        text-shadow: 0 0 40px rgba(167, 139, 250, 0.2);
     }
 
     .hero-title .accent {
@@ -332,7 +543,7 @@
         line-height: 1.8;
     }
 
-    /* ========== 按钮 ========== */
+    /* ========== 按钮通用 ========== */
     .hero-cta {
         display: flex;
         gap: 20px;
@@ -354,12 +565,12 @@
         text-decoration: none;
         display: inline-block;
         will-change: transform;
-        box-shadow: 0 4px 14px rgba(124, 58, 237, 0.3);
+        box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35), 0 0 30px rgba(124, 58, 237, 0.15);
     }
 
     .btn-primary:hover {
         transform: translateY(-2px);
-        box-shadow: var(--shadow-hover);
+        box-shadow: 0 8px 28px rgba(124, 58, 237, 0.45), 0 0 50px rgba(167, 139, 250, 0.25);
     }
 
     .btn-outline {
@@ -368,17 +579,18 @@
         font-weight: 600;
         letter-spacing: 3px;
         color: var(--accent-purple);
-        background: transparent;
-        border: 1.5px solid rgba(124, 58, 237, 0.35);
+        background: rgba(167, 139, 250, 0.05);
+        border: 1.5px solid rgba(167, 139, 250, 0.35);
         border-radius: 8px;
         cursor: pointer;
         transition: all 0.3s;
         text-decoration: none;
         display: inline-block;
+        backdrop-filter: blur(4px);
     }
 
     .btn-outline:hover {
-        background: rgba(124, 58, 237, 0.06);
+        background: rgba(167, 139, 250, 0.12);
         border-color: var(--accent-purple);
         color: var(--accent-purple);
     }
@@ -433,41 +645,32 @@
         box-shadow: 0 8px 28px rgba(59, 130, 246, 0.45);
     }
 
-    /* ========== 二维码宣传图区域 ========== */
-    .qrcode-section {
-        padding: 100px 24px;
-        max-width: 1200px;
-        margin: 0 auto;
-        contain: layout style;
-    }
-
-    .section-header {
-        text-align: center;
-        margin-bottom: 56px;
-        display: flex;
+    /* ========== 前往聊天群按钮 ========== */
+    .btn-chat {
+        display: inline-flex;
         align-items: center;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 20px;
-    }
-
-    .section-header h2 {
-        font-size: clamp(28px, 4vw, 40px);
-        font-weight: 700;
-        letter-spacing: 6px;
-        color: var(--text-primary);
-        margin-bottom: 0;
-    }
-
-    .section-header p {
-        font-size: 15px;
-        color: var(--text-muted);
+        gap: 8px;
+        padding: 12px 36px;
+        font-size: 14px;
+        font-weight: 600;
         letter-spacing: 3px;
-        width: 100%;
-        margin-top: 8px;
+        color: #fff;
+        background: linear-gradient(135deg, #6366f1, #a78bfa);
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: transform 0.3s, box-shadow 0.3s;
+        will-change: transform;
+        box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35), 0 0 30px rgba(99, 102, 241, 0.15);
     }
 
-    /* 加入其他群聊按钮（标题旁 / 独立行） */
+    .btn-chat:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(99, 102, 241, 0.5), 0 0 50px rgba(167, 139, 250, 0.25);
+    }
+
+    /* ========== 加入其他群聊按钮 ========== */
     .btn-other-group {
         display: inline-flex;
         align-items: center;
@@ -553,6 +756,195 @@
         cursor: wait;
     }
 
+    /* ========== 点击加入辅助按钮 ========== */
+    .btn-join-assist {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 14px 44px;
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 3px;
+        color: #fff;
+        background: linear-gradient(135deg, #7c3aed, #4c1d95);
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: transform 0.3s, box-shadow 0.3s;
+        will-change: transform;
+        box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4), 0 0 40px rgba(124, 58, 237, 0.2);
+        margin: 8px;
+    }
+
+    .btn-join-assist:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 32px rgba(124, 58, 237, 0.5), 0 0 60px rgba(167, 139, 250, 0.3);
+    }
+
+    .btn-join-outline {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 14px 44px;
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 3px;
+        color: var(--accent-purple);
+        background: rgba(167, 139, 250, 0.06);
+        border: 1.5px solid rgba(167, 139, 250, 0.4);
+        border-radius: 10px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.3s;
+        margin: 8px;
+        backdrop-filter: blur(4px);
+    }
+
+    .btn-join-outline:hover {
+        background: rgba(167, 139, 250, 0.14);
+        border-color: var(--accent-purple);
+        color: var(--accent-purple);
+        transform: translateY(-2px);
+    }
+
+    /* ========== 二维码宣传图区域 ========== */
+    .qrcode-section {
+        padding: 100px 24px;
+        max-width: 1200px;
+        margin: 0 auto;
+        contain: layout style;
+        position: relative;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .section-header h2 {
+        font-size: clamp(28px, 4vw, 40px);
+        font-weight: 700;
+        letter-spacing: 6px;
+        color: var(--text-primary);
+        margin-bottom: 0;
+        text-shadow: 0 0 30px rgba(167, 139, 250, 0.2);
+    }
+
+    .section-header p {
+        font-size: 15px;
+        color: var(--text-muted);
+        letter-spacing: 3px;
+        width: 100%;
+        margin-top: 8px;
+    }
+
+    /* 二维码卡片网格 */
+    .qrcode-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px;
+    }
+
+    .qrcode-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-light);
+        border-radius: 18px;
+        padding: 28px 24px;
+        text-align: center;
+        transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s;
+        overflow: hidden;
+        will-change: transform;
+        box-shadow: var(--shadow-card);
+        backdrop-filter: blur(8px);
+    }
+
+    .qrcode-card:hover {
+        transform: translateY(-6px);
+        border-color: var(--border-hover);
+        box-shadow: var(--shadow-hover);
+        background: var(--bg-card-hover);
+    }
+
+    .qrcode-card .img-wrap {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        border-radius: 24px;
+        overflow: hidden;
+        background: rgba(167, 139, 250, 0.05);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: inset 0 0 0 1px rgba(167, 139, 250, 0.08);
+    }
+
+    .qrcode-card .img-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.5s;
+    }
+
+    .qrcode-card .img-wrap.qr-wrap {
+        aspect-ratio: 1 / 1;
+        padding: 16px;
+        background: #fff;
+        border: 1px solid var(--border-light);
+    }
+
+    .qrcode-card .img-wrap.qr-wrap img {
+        border-radius: 12px;
+    }
+
+    .qrcode-card:hover .img-wrap.qr-wrap img {
+        transform: scale(1.03);
+    }
+
+    /* QQ 加群按钮 */
+    .qrcode-card .qq-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 28px;
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 2px;
+        color: var(--accent-purple);
+        border: 1px solid rgba(167, 139, 250, 0.3);
+        border-radius: 6px;
+        text-decoration: none;
+        transition: all 0.3s;
+    }
+
+    .qrcode-card .qq-btn:hover {
+        background: rgba(167, 139, 250, 0.12);
+        border-color: var(--accent-purple);
+        color: var(--accent-purple);
+    }
+
+    .qrcode-card h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text-primary);
+        letter-spacing: 2px;
+        margin-bottom: 6px;
+    }
+
+    .qrcode-card p {
+        font-size: 13px;
+        color: var(--text-muted);
+        letter-spacing: 1px;
+        margin-bottom: 18px;
+    }
+
     /* ========== 赞助码区域 ========== */
     .sponsor-section {
         padding: 80px 24px;
@@ -560,6 +952,7 @@
         margin: 0 auto;
         contain: layout style;
         text-align: center;
+        position: relative;
     }
 
     .sponsor-section .section-header {
@@ -591,12 +984,14 @@
         overflow: hidden;
         will-change: transform;
         box-shadow: var(--shadow-card);
+        backdrop-filter: blur(8px);
     }
 
     .sponsor-card:hover {
         transform: translateY(-6px);
         border-color: var(--border-hover);
         box-shadow: var(--shadow-hover);
+        background: var(--bg-card-hover);
     }
 
     .sponsor-card .img-wrap {
@@ -654,112 +1049,19 @@
         50%      { transform: scale(1.12); }
     }
 
-    /* 二维码卡片网格 */
-    .qrcode-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 28px;
-    }
-
-    .qrcode-card {
-        background: var(--bg-card);
-        border: 1px solid var(--border-light);
-        border-radius: 18px;
-        padding: 28px 24px;
-        text-align: center;
-        transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s;
-        overflow: hidden;
-        will-change: transform;
-        box-shadow: var(--shadow-card);
-    }
-
-    .qrcode-card:hover {
-        transform: translateY(-6px);
-        border-color: var(--border-hover);
-        box-shadow: var(--shadow-hover);
-    }
-
-    .qrcode-card .img-wrap {
-        width: 100%;
-        aspect-ratio: 1 / 1;
-        border-radius: 24px;
-        overflow: hidden;
-        background: var(--bg-secondary);
-        margin-bottom: 20px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: inset 0 0 0 1px rgba(124, 58, 237, 0.05);
-    }
-
-    .qrcode-card .img-wrap img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        transition: transform 0.5s;
-    }
-
-    .qrcode-card .img-wrap.qr-wrap {
-        aspect-ratio: 1 / 1;
-        padding: 16px;
-        background: #fff;
-        border: 1px solid var(--border-light);
-    }
-
-    .qrcode-card .img-wrap.qr-wrap img {
-        border-radius: 12px;
-    }
-
-    .qrcode-card:hover .img-wrap.qr-wrap img {
-        transform: scale(1.03);
-    }
-
-    /* QQ 加群按钮 */
-    .qrcode-card .qq-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        padding: 10px 28px;
-        font-size: 13px;
-        font-weight: 500;
-        letter-spacing: 2px;
-        color: var(--accent-purple);
-        border: 1px solid rgba(124, 58, 237, 0.3);
-        border-radius: 6px;
-        text-decoration: none;
-        transition: all 0.3s;
-    }
-
-    .qrcode-card .qq-btn:hover {
-        background: rgba(124, 58, 237, 0.08);
-        border-color: var(--accent-purple);
-        color: var(--accent-purple);
-    }
-
-    .qrcode-card h3 {
-        font-size: 18px;
-        font-weight: 600;
-        color: var(--text-primary);
-        letter-spacing: 2px;
-        margin-bottom: 6px;
-    }
-
-    .qrcode-card p {
-        font-size: 13px;
-        color: var(--text-muted);
-        letter-spacing: 1px;
-        margin-bottom: 18px;
-    }
-
     /* ========== 页脚 ========== */
     .footer {
         text-align: center;
         padding: 36px 24px;
         border-top: 1px solid var(--border-light);
-        background: var(--bg-secondary);
+        background: rgba(17, 13, 34, 0.8);
         margin-top: 40px;
+        backdrop-filter: blur(8px);
+        position: relative;
+    }
+
+    body.theme-light .footer {
+        background: var(--bg-secondary);
     }
 
     .footer p {
@@ -779,19 +1081,19 @@
         font-weight: 500;
         letter-spacing: 2px;
         color: var(--accent-purple);
-        background: rgba(124, 58, 237, 0.06);
-        border: 1px solid rgba(124, 58, 237, 0.25);
+        background: rgba(167, 139, 250, 0.08);
+        border: 1px solid rgba(167, 139, 250, 0.25);
         border-radius: 8px;
         text-decoration: none;
         transition: all 0.3s;
     }
 
     .footer-link:hover {
-        background: rgba(124, 58, 237, 0.12);
+        background: rgba(167, 139, 250, 0.15);
         border-color: var(--accent-purple);
         color: var(--accent-purple);
         transform: translateY(-1px);
-        box-shadow: 0 4px 16px rgba(124, 58, 237, 0.15);
+        box-shadow: 0 4px 16px rgba(167, 139, 250, 0.2);
     }
 
     /* ========== 响应式 ========== */
@@ -839,6 +1141,14 @@
             padding: 14px 40px;
             font-size: 15px;
         }
+
+        .theme-toggle {
+            width: 42px;
+            height: 42px;
+            font-size: 18px;
+            top: 14px;
+            right: 14px;
+        }
     }
 
     /* ========== 减少动画偏好 ========== */
@@ -853,6 +1163,15 @@
 </style>
 </head>
 <body>
+
+<!-- 星空背景层 -->
+<div class="stars-bg" aria-hidden="true"></div>
+
+<!-- 昼夜切换按钮 -->
+<button class="theme-toggle" id="themeToggle" type="button" title="切换昼夜模式" aria-label="切换昼夜模式">
+    <span class="icon-moon">🌙</span>
+    <span class="icon-sun">☀️</span>
+</button>
 
 <!-- ===== 入口页 ===== -->
 <div class="entrance-page" id="entrancePage">
@@ -897,7 +1216,7 @@
             这里只连接最优质的人与资源
         </p>
         <div class="hero-cta">
-            <a href="#join" class="btn-primary">扫码入群</a>
+            <a href="#join" class="btn-primary">点击加入</a>
             <a href="#join" class="btn-outline">立即加入</a>
             <a href="#sponsor" class="btn-sponsor">💖 赞助一下下</a>
         </div>
@@ -916,6 +1235,12 @@
             </a>
         </div>
         <div class="hero-cta" style="margin-top:16px;">
+            <a href="https://wwyuanyu.github.io/ltq/"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="btn-chat">
+                💬 前往聊天群
+            </a>
             <a href="https://wwyuanyu.github.io/quntz/"
                target="_blank"
                rel="noopener noreferrer"
@@ -925,11 +1250,11 @@
         </div>
     </section>
 
-    <!-- 二维码宣传图区域 -->
+    <!-- 点击加入辅助区域 -->
     <section class="qrcode-section" id="join" role="main">
         <div class="section-header">
-            <h2>扫码加入挂圈</h2>
-            <p>长按保存图片 · 扫码即可入群 · 限时开放</p>
+            <h2>点击加入挂圈</h2>
+            <p>一键跳转 · 快速入群 · 限时开放</p>
         </div>
 
         <div class="qrcode-grid">
@@ -988,6 +1313,42 @@
                 </a>
             </div>
 
+        </div>
+
+        <!-- 点击加入辅助按钮区域 -->
+        <div style="margin-top: 56px; text-align: center;">
+            <div class="section-header" style="margin-bottom: 28px;">
+                <h2 style="font-size: clamp(22px, 3vw, 32px);">⚡ 点击加入辅助</h2>
+                <p>入群遇到问题？点击下方按钮快速加入</p>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+                <a href="https://qm.qq.com/q/mbwXQtI0KI"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="btn-join-assist">
+                    🔥 加入主群
+                </a>
+                <a href="https://qm.qq.com/q/ObnsQ9ovsG"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="btn-join-assist">
+                    📁 加入文件扩展群
+                </a>
+                <a href="https://qm.qq.com/q/I2v3RFk7QY"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="btn-join-assist">
+                    ⭐ 加入迷你群3群
+                </a>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 16px;">
+                <a href="https://wwyuanyu.github.io/ltq/"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="btn-join-outline">
+                    💬 前往聊天群
+                </a>
+            </div>
         </div>
     </section>
 
@@ -1063,6 +1424,30 @@
             e.preventDefault();
             enterHomepage();
         }
+    });
+})();
+
+/* ========== 昼夜切换逻辑 ========== */
+(function () {
+    var THEME_KEY = 'guaquan_theme';
+    var toggleBtn = document.getElementById('themeToggle');
+
+    // 默认深色（蓝紫星空），检查是否有保存的偏好
+    var savedTheme = null;
+    try {
+        savedTheme = localStorage.getItem(THEME_KEY);
+    } catch (e) { /* 隐私模式兼容 */ }
+
+    // 如果有保存的浅色主题，应用它
+    if (savedTheme === 'light') {
+        document.body.classList.add('theme-light');
+    }
+
+    toggleBtn.addEventListener('click', function () {
+        var isLight = document.body.classList.toggle('theme-light');
+        try {
+            localStorage.setItem(THEME_KEY, isLight ? 'light' : 'dark');
+        } catch (e) { /* 隐私模式兼容 */ }
     });
 })();
 
@@ -1168,8 +1553,8 @@ document.addEventListener('error', function (e) {
                 display:flex;
                 align-items:center;
                 justify-content:center;
-                background:rgba(124,58,237,0.05);
-                color:#a09bb5;
+                background:rgba(167,139,250,0.05);
+                color:#6b6399;
                 font-size:14px;
                 letter-spacing:2px;
                 border-radius:24px;
