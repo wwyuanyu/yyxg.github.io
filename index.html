@@ -8,7 +8,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
-<title>挂圈欢迎</title>
+<title>技术交流</title>
 
 <!-- 网站头像（Favicon） -->
 <link rel="icon" type="image/jpeg" href="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEY2tNqeFCPN9rzdDaIXU6jERCZUnsfaAAC8iEAAhVdyVfaHHLx81u18z0E.jpg" />
@@ -122,21 +122,31 @@
         z-index: -1;
     }
 
-    /* 流星效果 */
+    /* ============================================================
+       ===== 流星划过特效（核心修改） ============================
+       ============================================================ */
     .stars-bg::after {
         content: "";
         position: absolute;
-        top: -50%;
-        left: -50%;
-        width: 200%;
-        height: 200%;
-        background: radial-gradient(2px 2px at 15% 25%, rgba(255,255,255,0.9) 50%, transparent 50%),
-                    radial-gradient(1px 1px at 45% 55%, rgba(200,180,255,0.7) 50%, transparent 50%),
-                    radial-gradient(1.5px 1.5px at 75% 15%, rgba(255,255,255,0.8) 50%, transparent 50%),
-                    radial-gradient(1px 1px at 85% 65%, rgba(180,160,255,0.6) 50%, transparent 50%),
-                    radial-gradient(1px 1px at 35% 85%, rgba(255,255,255,0.5) 50%, transparent 50%);
-        background-size: 100% 100%;
-        animation: meteor 12s ease-in-out infinite;
+        top: 0;
+        left: -100%;
+        width: 300%;
+        height: 100%;
+        pointer-events: none;
+        background:
+            /* 流星 1：大、亮 */
+            linear-gradient(135deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.95) 40%, rgba(200,180,255,0.4) 60%, rgba(167,139,250,0) 100%) 12% 8% / 180px 2.5px,
+            /* 流星 2：中 */
+            linear-gradient(135deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.85) 45%, rgba(244,114,182,0.3) 65%, rgba(167,139,250,0) 100%) 48% 22% / 140px 2px,
+            /* 流星 3：小、快 */
+            linear-gradient(135deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 50%, rgba(180,160,255,0.35) 70%, rgba(167,139,250,0) 100%) 78% 15% / 100px 1.5px,
+            /* 流星 4：中、慢 */
+            linear-gradient(135deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 45%, rgba(200,180,255,0.3) 65%, rgba(167,139,250,0) 100%) 30% 55% / 130px 2px,
+            /* 流星 5：小、慢 */
+            linear-gradient(135deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.75) 50%, rgba(244,114,182,0.25) 70%, rgba(167,139,250,0) 100%) 65% 70% / 90px 1.5px;
+        background-repeat: no-repeat;
+        animation: meteorFly 12s linear infinite;
+        z-index: 1;
     }
 
     @keyframes twinkle {
@@ -144,179 +154,29 @@
         50%      { opacity: 0.8; }
     }
 
-    @keyframes meteor {
-        0%   { transform: translate(0, 0); opacity: 0.3; }
-        25%  { transform: translate(2%, -2%); opacity: 0.6; }
-        50%  { transform: translate(-1%, 1%); opacity: 0.4; }
-        75%  { transform: translate(1%, -1%); opacity: 0.7; }
-        100% { transform: translate(0, 0); opacity: 0.3; }
-    }
-
-    /* ============================================================
-       ===== 流星特效 ============================================
-       ============================================================ */
-    .meteor-layer {
-        position: fixed;
-        inset: 0;
-        z-index: 1;
-        pointer-events: none;
-        overflow: hidden;
-    }
-
-    /* 单个流星通用样式 */
-    .meteor {
-        position: absolute;
-        width: 2px;
-        height: 2px;
-        background: #fff;
-        border-radius: 50%;
-        box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.8),
-                    0 0 12px 2px rgba(167, 139, 250, 0.4);
-        opacity: 0;
-        animation: meteorFall linear infinite;
-    }
-
-    /* 流星拖尾（用 ::before 模拟） */
-    .meteor::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 150px;
-        height: 1px;
-        background: linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.9) 0%,
-            rgba(200, 180, 255, 0.5) 40%,
-            transparent 100%
-        );
-        transform: translate(0, -50%) rotate(-15deg);
-        transform-origin: right center;
-    }
-
-    /* 流星 1：左上 → 右下 */
-    .meteor-1 {
-        top: -10%;
-        left: 15%;
-        animation-duration: 3.5s;
-        animation-delay: 2s;
-    }
-
-    /* 流星 2：中上 → 右下（粉紫色调） */
-    .meteor-2 {
-        top: -15%;
-        left: 55%;
-        animation-duration: 4s;
-        animation-delay: 6s;
-        width: 2.5px;
-        height: 2.5px;
-    }
-
-    .meteor-2::before {
-        width: 200px;
-        background: linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.85) 0%,
-            rgba(244, 114, 182, 0.4) 40%,
-            transparent 100%
-        );
-    }
-
-    /* 流星 3：右上 → 左下 */
-    .meteor-3 {
-        top: -5%;
-        left: 80%;
-        animation-duration: 3s;
-        animation-delay: 10s;
-    }
-
-    .meteor-3::before {
-        width: 120px;
-        background: linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.9) 0%,
-            rgba(167, 139, 250, 0.5) 40%,
-            transparent 100%
-        );
-    }
-
-    /* 流星 4：左侧 → 右下（细小流星） */
-    .meteor-4 {
-        top: 10%;
-        left: 35%;
-        animation-duration: 4.5s;
-        animation-delay: 14s;
-        width: 1.5px;
-        height: 1.5px;
-    }
-
-    .meteor-4::before {
-        width: 100px;
-        background: linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.8) 0%,
-            rgba(180, 160, 255, 0.4) 40%,
-            transparent 100%
-        );
-    }
-
-    /* 流星 5：小流星，快速划过 */
-    .meteor-5 {
-        top: -20%;
-        left: 70%;
-        animation-duration: 2.5s;
-        animation-delay: 18s;
-        width: 1.5px;
-        height: 1.5px;
-    }
-
-    .meteor-5::before {
-        width: 80px;
-        background: linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.7) 0%,
-            rgba(200, 180, 255, 0.3) 40%,
-            transparent 100%
-        );
-    }
-
-    @keyframes meteorFall {
+    /* 流星划过动画 */
+    @keyframes meteorFly {
         0% {
+            transform: translateX(0) translateY(0);
             opacity: 0;
-            transform: translate(0, 0);
         }
-        5% {
+        2% {
             opacity: 1;
         }
-        70% {
+        15% {
+            transform: translateX(35vw) translateY(12vh);
             opacity: 1;
+        }
+        18% {
+            opacity: 0;
         }
         100% {
+            transform: translateX(35vw) translateY(12vh);
             opacity: 0;
-            transform: translate(400px, 400px);
         }
     }
 
-    /* 流星坠落时拖尾跟随旋转 */
-    .meteor::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 2px;
-        height: 2px;
-        background: rgba(255, 255, 255, 0.9);
-        border-radius: 50%;
-        transform: translate(-50%, -50%);
-        box-shadow: 0 0 4px rgba(255, 255, 255, 0.6);
-    }
-
-    /* 亮色模式隐藏流星 */
-    body.theme-light .meteor-layer {
-        display: none;
-    }
-
-    /* 亮色模式隐藏星空 */
+    /* 亮色模式隐藏星空和流星 */
     body.theme-light .stars-bg {
         display: none;
     }
@@ -407,82 +267,6 @@
         top: -160px;
         left: 50%;
         transform: translateX(-50%);
-    }
-
-    /* 入口页流星 */
-    .entrance-meteor {
-        position: absolute;
-        width: 2px;
-        height: 2px;
-        background: #fff;
-        border-radius: 50%;
-        box-shadow: 0 0 8px 2px rgba(255, 255, 255, 0.9),
-                    0 0 16px 4px rgba(167, 139, 250, 0.5);
-        opacity: 0;
-        z-index: 1;
-        animation: entranceMeteorFall 6s ease-in infinite;
-    }
-
-    .entrance-meteor::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        right: 0;
-        width: 180px;
-        height: 1px;
-        background: linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.9) 0%,
-            rgba(200, 180, 255, 0.5) 40%,
-            transparent 100%
-        );
-        transform: translate(0, -50%) rotate(-15deg);
-        transform-origin: right center;
-    }
-
-    .entrance-meteor-1 {
-        top: 5%;
-        left: 20%;
-        animation-delay: 1s;
-    }
-
-    .entrance-meteor-2 {
-        top: 15%;
-        left: 60%;
-        animation-delay: 4s;
-        width: 2.5px;
-        height: 2.5px;
-    }
-
-    .entrance-meteor-2::before {
-        width: 220px;
-        background: linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.85) 0%,
-            rgba(244, 114, 182, 0.45) 40%,
-            transparent 100%
-        );
-    }
-
-    @keyframes entranceMeteorFall {
-        0% {
-            opacity: 0;
-            transform: translate(0, 0);
-        }
-        5% {
-            opacity: 1;
-        }
-        60% {
-            opacity: 1;
-        }
-        100% {
-            opacity: 0;
-            transform: translate(500px, 500px);
-        }
-    }
-
-    body.theme-light .entrance-meteor {
-        display: none;
     }
 
     /* 入口页光晕 */
@@ -714,103 +498,6 @@
 
     body.theme-light .hero::after {
         background: radial-gradient(circle, rgba(124, 58, 237, 0.08) 0%, transparent 70%);
-    }
-
-    /* Hero 区域流星 */
-    .hero-meteor {
-        position: absolute;
-        width: 2px;
-        height: 2px;
-        background: #fff;
-        border-radius: 50%;
-        box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.8),
-                    0 0 14px 3px rgba(167, 139, 250, 0.45);
-        opacity: 0;
-        z-index: 1;
-        animation: heroMeteorFall linear infinite;
-    }
-
-    .hero-meteor::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        right: 0;
-        width: 160px;
-        height: 1px;
-        background: linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.9) 0%,
-            rgba(200, 180, 255, 0.5) 40%,
-            transparent 100%
-        );
-        transform: translate(0, -50%) rotate(-15deg);
-        transform-origin: right center;
-    }
-
-    .hero-meteor-1 {
-        top: -5%;
-        left: 25%;
-        animation-duration: 3s;
-        animation-delay: 3s;
-    }
-
-    .hero-meteor-2 {
-        top: 10%;
-        left: 65%;
-        animation-duration: 3.5s;
-        animation-delay: 8s;
-        width: 2.5px;
-        height: 2.5px;
-    }
-
-    .hero-meteor-2::before {
-        width: 200px;
-        background: linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.85) 0%,
-            rgba(244, 114, 182, 0.4) 40%,
-            transparent 100%
-        );
-    }
-
-    .hero-meteor-3 {
-        top: -10%;
-        left: 45%;
-        animation-duration: 2.8s;
-        animation-delay: 13s;
-        width: 1.5px;
-        height: 1.5px;
-    }
-
-    .hero-meteor-3::before {
-        width: 100px;
-        background: linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.8) 0%,
-            rgba(180, 160, 255, 0.4) 40%,
-            transparent 100%
-        );
-    }
-
-    @keyframes heroMeteorFall {
-        0% {
-            opacity: 0;
-            transform: translate(0, 0);
-        }
-        5% {
-            opacity: 1;
-        }
-        70% {
-            opacity: 1;
-        }
-        100% {
-            opacity: 0;
-            transform: translate(450px, 450px);
-        }
-    }
-
-    body.theme-light .hero-meteor {
-        display: none;
     }
 
     .hero > * {
@@ -1478,15 +1165,6 @@
 <!-- 星空背景层 -->
 <div class="stars-bg" aria-hidden="true"></div>
 
-<!-- 流星特效层 -->
-<div class="meteor-layer" aria-hidden="true">
-    <div class="meteor meteor-1"></div>
-    <div class="meteor meteor-2"></div>
-    <div class="meteor meteor-3"></div>
-    <div class="meteor meteor-4"></div>
-    <div class="meteor meteor-5"></div>
-</div>
-
 <!-- 昼夜切换按钮 -->
 <button class="theme-toggle" id="themeToggle" type="button" title="切换昼夜模式" aria-label="切换昼夜模式">
     <span class="icon-moon">🌙</span>
@@ -1495,18 +1173,15 @@
 
 <!-- ===== 入口页 ===== -->
 <div class="entrance-page" id="entrancePage">
-    <!-- 入口页流星 -->
-    <div class="entrance-meteor entrance-meteor-1"></div>
-    <div class="entrance-meteor entrance-meteor-2"></div>
     <div class="entrance-avatar">
         <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEY2tNqeFCPN9rzdDaIXU6jERCZUnsfaAAC8iEAAhVdyVfaHHLx81u18z0E.jpg"
-             alt="挂圈头像"
+             alt="技术交流头像"
              loading="eager"
              decoding="async" />
     </div>
     <div class="entrance-badge">🔥 顶级圈层 · 资源对接</div>
     <h1 class="entrance-title">
-        欢迎来到<span class="accent">挂圈</span>
+        欢迎来到<span class="accent">技术交流</span>
     </h1>
     <p class="entrance-subtitle">
         资本 · 流量 · 顶流 · 商务<br>
@@ -1523,19 +1198,15 @@
 
     <!-- Hero 区域 -->
     <section class="hero" id="home" role="banner">
-        <!-- Hero 流星 -->
-        <div class="hero-meteor hero-meteor-1"></div>
-        <div class="hero-meteor hero-meteor-2"></div>
-        <div class="hero-meteor hero-meteor-3"></div>
         <div class="site-avatar">
             <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEY2tNqeFCPN9rzdDaIXU6jERCZUnsfaAAC8iEAAhVdyVfaHHLx81u18z0E.jpg"
-                 alt="挂圈头像"
+                 alt="技术交流头像"
                  loading="eager"
                  decoding="async" />
         </div>
         <div class="hero-badge">🔥 顶级圈层 · 资源对接</div>
         <h1 class="hero-title">
-            进入<span class="accent">挂圈</span><br>
+            进入<span class="accent">技术交流</span><br>
             看见更大的世界
         </h1>
         <p class="hero-subtitle">
@@ -1568,12 +1239,6 @@
                class="btn-chat">
                 💬 前往聊天群
             </a>
-            <a href="https://wwyuanyu.github.io/quntz/"
-               target="_blank"
-               rel="noopener noreferrer"
-               class="btn-other-group">
-                🔗 多群跳转
-            </a>
         </div>
     </section>
 
@@ -1601,11 +1266,11 @@
             <div class="qrcode-card">
                 <div class="img-wrap qr-wrap">
                     <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEYKvpqat8mSMSeXz139gZKnjNLMjhUIgACDSEAAvjGWFcBs0hE9XOmNj0E.jpg"
-                         alt="挂圈主群二维码"
+                         alt="技术交流主群二维码"
                          loading="lazy"
                          decoding="async" />
                 </div>
-                <h3>挂圈 · 主群</h3>
+                <h3>技术交流 · 主群</h3>
                 <p>群号：327150404</p>
                 <a class="qq-btn"
                    target="_blank"
@@ -1619,11 +1284,11 @@
             <div class="qrcode-card">
                 <div class="img-wrap qr-wrap">
                     <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEYKvpqat8mSMSeXz139gZKnjNLMjhUIgACDSEAAvjGWFcBs0hE9XOmNj0E.jpg"
-                         alt="挂圈文件传输群二维码"
+                         alt="技术交流文件传输群二维码"
                          loading="lazy"
                          decoding="async" />
                 </div>
-                <h3>挂圈 · 文件扩展</h3>
+                <h3>技术交流 · 副群</h3>
                 <p>群号：548417681</p>
                 <a class="qq-btn"
                    target="_blank"
@@ -1633,15 +1298,15 @@
                 </a>
             </div>
 
-            <!-- 卡片 3：妤与渊共建迷你群3群 -->
+            <!-- 卡片 3：技术交流 · 3群 -->
             <div class="qrcode-card">
                 <div class="img-wrap qr-wrap">
                     <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEY22ZqeGDVMsmh3m6U368qqg9uPDBy_AACrCIAAhVdyVdqcQo2GYsynj0E.jpg"
-                         alt="妤与渊共建迷你群3群头像"
+                         alt="技术交流 · 3群头像"
                          loading="lazy"
                          decoding="async" />
                 </div>
-                <h3>妤与渊共建迷你群3群</h3>
+                <h3>技术交流 · 3群</h3>
                 <p>群号：197887848</p>
                 <a class="qq-btn"
                    target="_blank"
