@@ -874,7 +874,7 @@
         border-radius: 18px;
         padding: 36px 28px;
         text-align: center;
-        transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s;
+        transition: transform 0.35s, border-color 0.35s, box-shadow 0.35s);
         overflow: hidden;
         will-change: transform;
         box-shadow: var(--shadow-card);
@@ -1357,7 +1357,7 @@
     });
 })();
 
-/* ========== 爱心飘落特效（仅粉红色） ============ */
+/* ========== 爱心飘落特效（仅粉红色 · 已适配手机） ============ */
 (function () {
     var container = document.getElementById('heartContainer');
     if (!container) return;
@@ -1388,7 +1388,13 @@
         var vw = getViewportWidth();
         var vh = getViewportHeight();
         var x = Math.random() * vw;
-        var size = 16 + Math.random() * 26;
+        
+        // ===== 核心修改：根据屏幕宽度动态设置爱心大小 =====
+        // 手机端（<640px）：8px ~ 22px
+        // 电脑端：16px ~ 42px
+        var isMobile = vw < 640;
+        var size = isMobile ? (8 + Math.random() * 14) : (16 + Math.random() * 26);
+        
         var speedY = 1.0 + Math.random() * 2.2;
         var sway = 1.5 + Math.random() * 2;
         var swaySpeed = 0.02 + Math.random() * 0.03;
