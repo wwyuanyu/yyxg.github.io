@@ -555,6 +555,45 @@
         box-shadow: 0 8px 28px rgba(99, 102, 241, 0.5), 0 0 50px rgba(167, 139, 250, 0.25);
     }
 
+    /* ===== 主页跳转按钮：渊 / 妤 ===== */
+    .btn-home-yuan,
+    .btn-home-yu {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 36px;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 3px;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: transform 0.3s, box-shadow 0.3s;
+        will-change: transform;
+    }
+
+    .btn-home-yuan {
+        background: linear-gradient(135deg, #0ea5e9, #6366f1);
+        box-shadow: 0 4px 14px rgba(14, 165, 233, 0.3);
+    }
+
+    .btn-home-yuan:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(14, 165, 233, 0.45);
+    }
+
+    .btn-home-yu {
+        background: linear-gradient(135deg, #f472b6, #fb923c);
+        box-shadow: 0 4px 14px rgba(244, 114, 182, 0.3);
+    }
+
+    .btn-home-yu:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(244, 114, 182, 0.45);
+    }
+
     .btn-other-group {
         display: inline-flex;
         align-items: center;
@@ -1074,6 +1113,20 @@
                rel="noopener noreferrer"
                class="btn-chat">
                 💬 前往聊天群
+            </a>
+        </div>
+        <div class="hero-cta" style="margin-top:16px;">
+            <a href="https://wwyuanyu.github.io/yuandzy/"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="btn-home-yuan">
+                🌊 渊的主页
+            </a>
+            <a href="https://wwyuanyu.github.io/yydzszy/"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="btn-home-yu">
+                🐾 妤的主页
             </a>
         </div>
     </section>
