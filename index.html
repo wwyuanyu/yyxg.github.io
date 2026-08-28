@@ -32,8 +32,35 @@
         -moz-osx-font-smoothing: grayscale;
     }
 
+    /* ========== 字体全局继承 ========== */
+    button,
+    .entrance-badge,
+    .hero-badge,
+    .btn-primary,
+    .btn-outline,
+    .btn-ks,
+    .btn-tab,
+    .btn-chat,
+    .btn-other-group,
+    .btn-sponsor,
+    .btn-save-img,
+    .btn-join-outline,
+    .qq-btn,
+    .qrcode-card p,
+    .sponsor-card p,
+    .footer p,
+    .footer-link {
+        font-family: var(--font-serif);
+        letter-spacing: 2px;
+    }
+
     /* ========== 浅色主题（默认 · 浅粉） ========== */
     :root {
+        /* ===== 字体族（按指定顺序降级） ===== */
+        --font-title: STKaiti, KaiTi, SimSun, serif;
+        --font-body:  STKaiti, KaiTi, SimSun, serif;
+        --font-serif:  STKaiti, KaiTi, SimSun, serif;
+
         /* 粉色背景色 */
         --bg-primary:    #fff0f5;
         --bg-secondary:  #ffe3ec;
@@ -61,22 +88,21 @@
     }
 
     body {
-        font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Segoe UI", sans-serif;
-        /* 浅粉渐变背景 */
+        font-family: var(--font-body);
         background: linear-gradient(160deg, #fff0f5 0%, #ffe3ec 55%, #ffd6e2 100%);
         color: var(--text-primary);
         overscroll-behavior: none;
     }
 
     /* ============================================================
-       ===== 爱心飘落特效（替换原星空/流星） =====================
+       ===== 爱心飘落特效（纯粉红色） =====================
        ============================================================ */
     .heart {
         position: absolute;
         z-index: 99995;
         pointer-events: none;
-        /* 柔和发光 + 浅色描边，让爱心无论深浅背景都清晰明亮 */
-        text-shadow: 0 0 6px rgba(255, 255, 255, 0.7), 0 0 12px rgba(255, 179, 200, 0.5);
+        /* 阴影改为纯粉红色，移除白色 */
+        text-shadow: 0 0 6px rgba(255, 179, 200, 0.8), 0 0 12px rgba(255, 92, 138, 0.6);
     }
 
     @keyframes twinkle {
@@ -89,14 +115,12 @@
         50%      { margin-left: 20px; }
     }
 
-    /* 爱心容器层（承载所有动态爱心，置于最顶层） */
     #heartContainer {
         position: fixed;
         inset: 0;
         z-index: 100000;
         pointer-events: none;
         overflow: hidden;
-        /* 确保容器自身不会成为 containing block 的障碍 */
         -webkit-transform: translateZ(0);
         transform: translateZ(0);
     }
@@ -114,13 +138,11 @@
         justify-content: center;
         text-align: center;
         padding: 24px;
-        /* 浅粉氛围背景 */
         background: linear-gradient(160deg, #fff0f5 0%, #ffe3ec 55%, #ffd6e2 100%);
         overflow: hidden;
         transition: opacity 0.8s ease, visibility 0.8s ease;
     }
 
-    /* 入口页浅粉光斑氛围 */
     .entrance-page::before {
         content: "";
         position: absolute;
@@ -136,7 +158,6 @@
         z-index: 0;
     }
 
-    /* 入口页光晕（浅粉） */
     .entrance-page::after {
         content: "";
         position: absolute;
@@ -155,7 +176,6 @@
         z-index: 1;
     }
 
-    /* 入口页头像 */
     .entrance-avatar {
         width: 130px;
         height: 130px;
@@ -197,11 +217,12 @@
     }
 
     .entrance-title {
-        font-size: clamp(36px, 6vw, 64px);
-        font-weight: 800;
-        letter-spacing: 8px;
+        font-family: var(--font-title);
+        font-size: clamp(44px, 7vw, 76px);
+        font-weight: 400;
+        letter-spacing: 12px;
         color: var(--text-primary);
-        line-height: 1.25;
+        line-height: 1.3;
         margin-bottom: 20px;
         text-shadow: 0 0 40px rgba(167, 139, 250, 0.3);
     }
@@ -214,15 +235,15 @@
     }
 
     .entrance-subtitle {
+        font-family: var(--font-serif);
         font-size: clamp(15px, 2vw, 18px);
         color: var(--text-secondary);
-        letter-spacing: 3px;
+        letter-spacing: 4px;
         margin-bottom: 48px;
-        max-width: 520px;
-        line-height: 1.8;
+        max-width: 540px;
+        line-height: 2;
     }
 
-    /* 进入按钮 */
     .entrance-btn {
         position: relative;
         padding: 16px 56px;
@@ -276,7 +297,6 @@
         letter-spacing: 2px;
     }
 
-    /* 入口页隐藏态 */
     .entrance-page.is-hidden {
         opacity: 0;
         visibility: hidden;
@@ -302,7 +322,6 @@
         visibility: visible;
     }
 
-    /* ========== Hero 区域 ========== */
     .hero {
         min-height: 100vh;
         display: flex;
@@ -317,7 +336,6 @@
         overflow: hidden;
     }
 
-    /* Hero 区域浅粉氛围 */
     .hero::before {
         content: "";
         position: absolute;
@@ -351,7 +369,6 @@
         z-index: 1;
     }
 
-    /* ========== 网站头像 ========== */
     .site-avatar {
         width: 110px;
         height: 110px;
@@ -388,11 +405,12 @@
     }
 
     .hero-title {
-        font-size: clamp(40px, 6vw, 72px);
-        font-weight: 800;
-        letter-spacing: 8px;
+        font-family: var(--font-title);
+        font-size: clamp(48px, 7vw, 84px);
+        font-weight: 400;
+        letter-spacing: 12px;
         color: var(--text-primary);
-        line-height: 1.2;
+        line-height: 1.3;
         margin-bottom: 24px;
         text-shadow: 0 0 40px rgba(167, 139, 250, 0.2);
     }
@@ -405,15 +423,15 @@
     }
 
     .hero-subtitle {
+        font-family: var(--font-serif);
         font-size: clamp(16px, 2vw, 20px);
         color: var(--text-secondary);
-        letter-spacing: 4px;
+        letter-spacing: 5px;
         margin-bottom: 48px;
-        max-width: 600px;
-        line-height: 1.8;
+        max-width: 620px;
+        line-height: 2;
     }
 
-    /* ========== 按钮通用 ========== */
     .hero-cta {
         display: flex;
         gap: 20px;
@@ -465,7 +483,6 @@
         color: var(--accent-purple);
     }
 
-    /* ========== 群主ks按钮 ========== */
     .btn-ks {
         display: inline-flex;
         align-items: center;
@@ -490,7 +507,6 @@
         box-shadow: 0 8px 28px rgba(236, 72, 153, 0.45);
     }
 
-    /* ========== 标签页跳转按钮 ========== */
     .btn-tab {
         display: inline-flex;
         align-items: center;
@@ -515,7 +531,6 @@
         box-shadow: 0 8px 28px rgba(59, 130, 246, 0.45);
     }
 
-    /* ========== 前往聊天群按钮 ========== */
     .btn-chat {
         display: inline-flex;
         align-items: center;
@@ -540,7 +555,6 @@
         box-shadow: 0 8px 28px rgba(99, 102, 241, 0.5), 0 0 50px rgba(167, 139, 250, 0.25);
     }
 
-    /* ========== 加入其他群聊按钮 ========== */
     .btn-other-group {
         display: inline-flex;
         align-items: center;
@@ -566,7 +580,6 @@
         box-shadow: 0 8px 28px rgba(16, 185, 129, 0.45);
     }
 
-    /* ========== 赞助按钮 ========== */
     .btn-sponsor {
         display: inline-flex;
         align-items: center;
@@ -591,7 +604,6 @@
         box-shadow: 0 8px 28px rgba(239, 68, 68, 0.45);
     }
 
-    /* ========== 保存图片按钮 ========== */
     .btn-save-img {
         display: inline-flex;
         align-items: center;
@@ -652,7 +664,6 @@
         transform: translateY(-2px);
     }
 
-    /* ========== 二维码宣传图区域 ========== */
     .qrcode-section {
         padding: 100px 24px;
         max-width: 1200px;
@@ -672,9 +683,10 @@
     }
 
     .section-header h2 {
-        font-size: clamp(28px, 4vw, 40px);
-        font-weight: 700;
-        letter-spacing: 6px;
+        font-family: var(--font-title);
+        font-size: clamp(32px, 4.5vw, 48px);
+        font-weight: 400;
+        letter-spacing: 8px;
         color: var(--text-primary);
         margin-bottom: 0;
         text-shadow: 0 0 30px rgba(167, 139, 250, 0.2);
@@ -688,7 +700,6 @@
         margin-top: 8px;
     }
 
-    /* 二维码卡片网格 */
     .qrcode-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -751,7 +762,6 @@
         transform: scale(1.03);
     }
 
-    /* QQ 加群按钮 */
     .qrcode-card .qq-btn {
         display: inline-flex;
         align-items: center;
@@ -775,10 +785,11 @@
     }
 
     .qrcode-card h3 {
-        font-size: 18px;
+        font-family: var(--font-serif);
+        font-size: 19px;
         font-weight: 600;
         color: var(--text-primary);
-        letter-spacing: 2px;
+        letter-spacing: 3px;
         margin-bottom: 6px;
     }
 
@@ -789,7 +800,6 @@
         margin-bottom: 18px;
     }
 
-    /* ========== 赞助码区域 ========== */
     .sponsor-section {
         padding: 80px 24px;
         max-width: 800px;
@@ -804,9 +814,10 @@
     }
 
     .sponsor-section .section-header h2 {
-        font-size: clamp(28px, 4vw, 40px);
-        font-weight: 700;
-        letter-spacing: 6px;
+        font-family: var(--font-title);
+        font-size: clamp(32px, 4.5vw, 48px);
+        font-weight: 400;
+        letter-spacing: 8px;
         color: var(--text-primary);
     }
 
@@ -867,10 +878,11 @@
     }
 
     .sponsor-card h3 {
-        font-size: 20px;
+        font-family: var(--font-serif);
+        font-size: 21px;
         font-weight: 600;
         color: var(--text-primary);
-        letter-spacing: 2px;
+        letter-spacing: 3px;
         margin-bottom: 8px;
     }
 
@@ -893,7 +905,6 @@
         50%      { transform: scale(1.12); }
     }
 
-    /* ========== 页脚 ========== */
     .footer {
         text-align: center;
         padding: 36px 24px;
@@ -936,7 +947,6 @@
         box-shadow: 0 4px 16px rgba(167, 139, 250, 0.2);
     }
 
-    /* ========== 响应式 ========== */
     @media (max-width: 900px) {
         .qrcode-grid {
             grid-template-columns: repeat(2, 1fr);
@@ -971,7 +981,6 @@
             gap: 12px;
         }
 
-        /* 入口页移动端微调 */
         .entrance-avatar {
             width: 100px;
             height: 100px;
@@ -983,7 +992,6 @@
         }
     }
 
-    /* ========== 减少动画偏好 ========== */
     @media (prefers-reduced-motion: reduce) {
         *, *::before, *::after {
             animation-duration: 0.01ms !important;
@@ -1077,7 +1085,6 @@
             <p>入群遇到问题？点击下方按钮快速加入</p>
         </div>
 
-        <!-- 前往聊天群按钮（上方） -->
         <div style="text-align: center; margin-bottom: 40px;">
             <a href="https://wwyuanyu.github.io/ltq/"
                target="_blank"
@@ -1186,7 +1193,6 @@
     var homepage = document.getElementById('homepage');
     var entranceBtn = document.getElementById('entranceBtn');
 
-    // 如果当前会话已经点过"进入"，直接显示主页、隐藏入口页
     if (sessionStorage.getItem(STORAGE_KEY) === '1') {
         entrancePage.classList.add('is-hidden');
         homepage.classList.add('is-visible');
@@ -1194,26 +1200,20 @@
     }
 
     function enterHomepage() {
-        // 记录：本次会话内不再显示入口页
         try {
             sessionStorage.setItem(STORAGE_KEY, '1');
-        } catch (e) { /* 隐私模式兼容 */ }
+        } catch (e) { }
 
-        // 入口页淡出
         entrancePage.classList.add('is-hidden');
-        // 主页淡入（带延迟，等入口页半透明时再显现）
         homepage.classList.add('is-visible');
 
-        // 动画结束后彻底移除入口页的渲染
         setTimeout(function () {
             entrancePage.style.display = 'none';
         }, 900);
     }
 
-    // 点击按钮进入
     entranceBtn.addEventListener('click', enterHomepage);
 
-    // 也支持按 Enter / Space 键进入
     document.addEventListener('keydown', function (e) {
         if (entrancePage.classList.contains('is-hidden')) return;
         if (e.key === 'Enter' || e.key === ' ') {
@@ -1232,7 +1232,6 @@
     if (!sponsorImg) return;
 
     saveBtn.addEventListener('click', function () {
-        // 防止重复点击
         if (saveBtn.classList.contains('saving')) return;
         saveBtn.classList.add('saving');
         var originalText = saveBtn.innerHTML;
@@ -1241,7 +1240,6 @@
         var imgUrl = sponsorImg.src;
         var filename = '赞助码.png';
 
-        // 方法1：尝试通过 canvas 方式下载（处理跨域）
         function downloadViaCanvas() {
             var canvas = document.createElement('canvas');
             var ctx = canvas.getContext('2d');
@@ -1258,22 +1256,18 @@
                     triggerDownload(dataUrl, filename);
                     resetButton();
                 } catch (e) {
-                    // canvas 被污染（跨域限制），降级到方法2
                     downloadViaLink();
                 }
             };
 
             img.onerror = function () {
-                // 图片加载失败，降级到方法2
                 downloadViaLink();
             };
 
             img.src = imgUrl;
         }
 
-        // 方法2：直接通过 a 标签 + download 属性下载（兜底方案）
         function downloadViaLink() {
-            // 先尝试 fetch 获取 blob（现代浏览器）
             fetch(imgUrl, { mode: 'cors' })
                 .then(function (res) {
                     if (!res.ok) throw new Error('network response was not ok');
@@ -1286,7 +1280,6 @@
                     resetButton();
                 })
                 .catch(function () {
-                    // 最终兜底：直接打开图片（用户可手动长按/右键保存）
                     triggerDownload(imgUrl, filename);
                     resetButton();
                 });
@@ -1307,35 +1300,30 @@
             saveBtn.innerHTML = originalText;
         }
 
-        // 优先尝试 canvas 方式，失败自动降级
         downloadViaCanvas();
     });
 })();
 
-/* ========== 爱心飘落特效（修复：不滚动也持续下落） ============ */
+/* ========== 爱心飘落特效（仅粉红色） ============ */
 (function () {
     var container = document.getElementById('heartContainer');
     if (!container) return;
 
-    // 爱心符号（纯文字爱心，color 可正常着色；emoji 不受 color 控制故不使用）
     var symbols = ['♥', '❤', '♥', '❤', '♥'];
-    // 爱心颜色：统一使用明亮浅色，在深色/浅色主题下都清晰可见
-    var colors  = ['#ffd6e2', '#ffcce0', '#ffe0ec', '#ffb3c8', '#ffc36d', '#ffffff'];
+    // 只保留粉红色系，移除金色和白色
+    var colors  = ['#ffb3c8', '#ff8fa3', '#ff5c8a', '#ff3d73', '#ffd6e2', '#ffcce0', '#ffe0ec', '#ff69b4', '#ff1493'];
 
-    var MAX_HEARTS = 60; // 屏幕上同时存在的最大爱心数，防止长时间运行卡顿
+    var MAX_HEARTS = 60;
 
-    // 获取视口高度（兼容性好，不受滚动影响）
     function getViewportHeight() {
         return window.innerHeight || document.documentElement.clientHeight || 0;
     }
 
-    // 获取视口宽度
     function getViewportWidth() {
         return window.innerWidth || document.documentElement.clientWidth || 0;
     }
 
     function createHeart() {
-        // 超过上限时，移除最早的一个再创建，保证循环不断且数量可控
         if (container.childNodes.length >= MAX_HEARTS) {
             container.removeChild(container.firstChild);
         }
@@ -1347,18 +1335,16 @@
         var vw = getViewportWidth();
         var vh = getViewportHeight();
         var x = Math.random() * vw;
-        var size = 16 + Math.random() * 26;       // 随机大小
-        var speedY = 1.0 + Math.random() * 2.2;   // 下落速度
-        var sway = 1.5 + Math.random() * 2;       // 左右飘摆幅度
+        var size = 16 + Math.random() * 26;
+        var speedY = 1.0 + Math.random() * 2.2;
+        var sway = 1.5 + Math.random() * 2;
         var swaySpeed = 0.02 + Math.random() * 0.03;
         var opacity = 0.45 + Math.random() * 0.45;
         var color = colors[Math.floor(Math.random() * colors.length)];
 
-        var y = -size - Math.random() * 40;       // 从屏幕上方开始
+        var y = -size - Math.random() * 40;
         var frame = 0;
 
-        // 初始位置：left 用 px，top 固定为 0，所有位移由 transform 完成
-        // 这样即使页面不滚动，translate3d 也能正确驱动 Y 轴下落
         h.style.cssText = 'left:' + x + 'px;top:0;font-size:' + size +
                           'px;color:' + color + ';opacity:' + opacity + ';' +
                           'transform:translate3d(0,' + y + 'px,0);';
@@ -1368,33 +1354,26 @@
             y += speedY;
             frame += 1;
             var offset = Math.sin(frame * swaySpeed) * sway;
-            // 使用 translate3d 统一控制 X/Y 位移 + rotate
-            // GPU 加速，不依赖 top，页面不滚动也能持续下落
             h.style.transform = 'translate3d(' + offset + 'px,' + y + 'px,0) rotate(' + (frame * 2) + 'deg)';
 
             if (y < vh + size + 20) {
                 requestAnimationFrame(tick);
             } else {
-                h.remove(); // 飘出屏幕后移除，防止内存泄漏
+                h.remove();
             }
         }
         requestAnimationFrame(tick);
     }
 
-    // 立刻生成一批爱心，打开页面马上就有
     for (var i = 0; i < 12; i++) {
         setTimeout(createHeart, i * 160);
     }
-    // 持续生成
     setInterval(createHeart, 300);
 
-    // 窗口尺寸变化时重新校准（可选：防止旋转/resize 后爱心堆积）
     window.addEventListener('resize', function () {
-        // 触发一次创建，补充可能缺失的爱心
         createHeart();
     });
 })();
-/* ============================================================ */
 
 /* ========== 图片加载失败兜底 ========== */
 document.addEventListener('error', function (e) {
