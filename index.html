@@ -95,37 +95,6 @@
     }
 
     /* ============================================================
-       ===== 爱心飘落特效（纯粉红色） =====================
-       ============================================================ */
-    .heart {
-        position: absolute;
-        z-index: 99995;
-        pointer-events: none;
-        /* 阴影改为纯粉红色，移除白色 */
-        text-shadow: 0 0 6px rgba(255, 179, 200, 0.8), 0 0 12px rgba(255, 92, 138, 0.6);
-    }
-
-    @keyframes twinkle {
-        0%, 100% { opacity: 0.55; }
-        50%      { opacity: 0.9; }
-    }
-
-    @keyframes heartSway {
-        0%, 100% { margin-left: 0; }
-        50%      { margin-left: 20px; }
-    }
-
-    #heartContainer {
-        position: fixed;
-        inset: 0;
-        z-index: 100000;
-        pointer-events: none;
-        overflow: hidden;
-        -webkit-transform: translateZ(0);
-        transform: translateZ(0);
-    }
-
-    /* ============================================================
        ===== 入口页 ==============================================
        ============================================================ */
     .entrance-page {
@@ -1043,9 +1012,6 @@
 </head>
 <body>
 
-<!-- 爱心飘落容器 -->
-<div id="heartContainer" aria-hidden="true"></div>
-
 <!-- ===== 入口页 ===== -->
 <div class="entrance-page" id="entrancePage">
     <div class="entrance-avatar">
@@ -1089,7 +1055,7 @@
             这里只连接最优质的人与资源
         </p>
         <div class="hero-cta">
-            <a href="#join" class="btn-primary">点击加入</a>
+            <a href="#join" class="btn-primary">获取资源</a>
             <a href="#join" class="btn-outline">立即加入</a>
             <a href="#sponsor" class="btn-sponsor">💖 赞助一下下</a>
         </div>
@@ -1134,8 +1100,7 @@
     <!-- 点击加入辅助区域 -->
     <section class="qrcode-section" id="join" role="main">
         <div class="section-header">
-            <h2>⚡ 点击加入辅助</h2>
-            <p>入群遇到问题？点击下方按钮快速加入</p>
+            <h2>⚡ 点击获取资源</h2>
         </div>
 
         <div style="text-align: center; margin-bottom: 40px;">
@@ -1354,83 +1319,6 @@
         }
 
         downloadViaCanvas();
-    });
-})();
-
-/* ========== 爱心飘落特效（仅粉红色 · 已适配手机） ============ */
-(function () {
-    var container = document.getElementById('heartContainer');
-    if (!container) return;
-
-    var symbols = ['♥', '❤', '♥', '❤', '♥'];
-    // 只保留粉红色系，移除金色和白色
-    var colors  = ['#ffb3c8', '#ff8fa3', '#ff5c8a', '#ff3d73', '#ffd6e2', '#ffcce0', '#ffe0ec', '#ff69b4', '#ff1493'];
-
-    var MAX_HEARTS = 60;
-
-    function getViewportHeight() {
-        return window.innerHeight || document.documentElement.clientHeight || 0;
-    }
-
-    function getViewportWidth() {
-        return window.innerWidth || document.documentElement.clientWidth || 0;
-    }
-
-    function createHeart() {
-        if (container.childNodes.length >= MAX_HEARTS) {
-            container.removeChild(container.firstChild);
-        }
-
-        var h = document.createElement('div');
-        h.className = 'heart';
-        h.innerText = symbols[Math.floor(Math.random() * symbols.length)];
-
-        var vw = getViewportWidth();
-        var vh = getViewportHeight();
-        var x = Math.random() * vw;
-        
-        // ===== 核心修改：根据屏幕宽度动态设置爱心大小 =====
-        // 手机端（<640px）：8px ~ 22px
-        // 电脑端：16px ~ 42px
-        var isMobile = vw < 640;
-        var size = isMobile ? (8 + Math.random() * 14) : (16 + Math.random() * 26);
-        
-        var speedY = 1.0 + Math.random() * 2.2;
-        var sway = 1.5 + Math.random() * 2;
-        var swaySpeed = 0.02 + Math.random() * 0.03;
-        var opacity = 0.45 + Math.random() * 0.45;
-        var color = colors[Math.floor(Math.random() * colors.length)];
-
-        var y = -size - Math.random() * 40;
-        var frame = 0;
-
-        h.style.cssText = 'left:' + x + 'px;top:0;font-size:' + size +
-                          'px;color:' + color + ';opacity:' + opacity + ';' +
-                          'transform:translate3d(0,' + y + 'px,0);';
-        container.appendChild(h);
-
-        function tick() {
-            y += speedY;
-            frame += 1;
-            var offset = Math.sin(frame * swaySpeed) * sway;
-            h.style.transform = 'translate3d(' + offset + 'px,' + y + 'px,0) rotate(' + (frame * 2) + 'deg)';
-
-            if (y < vh + size + 20) {
-                requestAnimationFrame(tick);
-            } else {
-                h.remove();
-            }
-        }
-        requestAnimationFrame(tick);
-    }
-
-    for (var i = 0; i < 12; i++) {
-        setTimeout(createHeart, i * 160);
-    }
-    setInterval(createHeart, 300);
-
-    window.addEventListener('resize', function () {
-        createHeart();
     });
 })();
 
