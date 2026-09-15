@@ -8,7 +8,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 <meta http-equiv="Pragma" content="no-cache" />
 <meta http-equiv="Expires" content="0" />
-<title>技术交流</title>
+<title>旧官网</title>
 
 <!-- 网站头像（Favicon） -->
 <link rel="icon" type="image/jpeg" href="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEaHVRqkr3tjBORH2kGykGqD-gueDmPawACVyQAAmiKmVRNK96kIai3aj0E.jpeg" />
@@ -498,6 +498,31 @@
     .btn-tab:hover {
         transform: translateY(-2px);
         box-shadow: 0 8px 28px rgba(59, 130, 246, 0.45);
+    }
+
+    /* ===== 网络安全文档按钮（青绿安全主题） ===== */
+    .btn-security {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 36px;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 3px;
+        color: #fff;
+        background: linear-gradient(135deg, #0d9488, #06b6d4);
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: transform 0.3s, box-shadow 0.3s;
+        will-change: transform;
+        box-shadow: 0 4px 14px rgba(13, 148, 136, 0.3);
+    }
+
+    .btn-security:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 28px rgba(13, 148, 136, 0.45);
     }
 
     .btn-chat {
@@ -1008,9 +1033,144 @@
             scroll-behavior: auto !important;
         }
     }
+    /* ============================================================
+       ===== 迁移弹窗（进入即弹出） ==============================
+       ============================================================ */
+    .migrate-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: rgba(90, 32, 52, 0.45);
+        backdrop-filter: blur(6px);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
+    }
+
+    .migrate-modal.is-active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .migrate-modal-card {
+        background: linear-gradient(160deg, #fff0f5, #ffe3ec);
+        border: 1px solid rgba(255, 92, 138, 0.25);
+        border-radius: 24px;
+        max-width: 440px;
+        width: 100%;
+        padding: 40px 32px 32px;
+        text-align: center;
+        box-shadow: 0 24px 80px rgba(90, 32, 52, 0.30), 0 0 80px rgba(167, 139, 250, 0.15);
+        position: relative;
+        transform: translateY(20px) scale(0.95);
+        transition: transform 0.4s ease;
+    }
+
+    .migrate-modal.is-active .migrate-modal-card {
+        transform: translateY(0) scale(1);
+    }
+
+    .migrate-modal-close {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: none;
+        background: rgba(255, 92, 138, 0.12);
+        color: var(--accent-purple);
+        font-size: 18px;
+        line-height: 1;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+    }
+
+    .migrate-modal-close:hover {
+        background: var(--accent-purple);
+        color: #fff;
+        transform: rotate(90deg);
+    }
+
+    .migrate-modal-icon {
+        font-size: 56px;
+        margin-bottom: 16px;
+        animation: heartBeat 1.5s ease-in-out infinite;
+    }
+
+    .migrate-modal-card h2 {
+        font-family: var(--font-title);
+        font-size: 26px;
+        font-weight: 400;
+        letter-spacing: 4px;
+        color: var(--text-primary);
+        margin-bottom: 12px;
+    }
+
+    .migrate-modal-card p {
+        font-size: 14px;
+        color: var(--text-secondary);
+        letter-spacing: 1px;
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+
+    .migrate-modal-countdown {
+        display: inline-block;
+        padding: 6px 18px;
+        border-radius: 20px;
+        background: rgba(255, 92, 138, 0.10);
+        border: 1px solid rgba(255, 92, 138, 0.20);
+        font-size: 13px;
+        color: var(--accent-purple);
+        letter-spacing: 2px;
+        margin-bottom: 24px;
+    }
+
+    .migrate-modal-btn {
+        display: inline-block;
+        padding: 14px 44px;
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 3px;
+        color: #fff;
+        background: var(--gradient-btn);
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: transform 0.3s, box-shadow 0.3s;
+        box-shadow: 0 6px 20px rgba(255, 92, 138, 0.35);
+    }
+
+    .migrate-modal-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(255, 92, 138, 0.45);
+    }
 </style>
 </head>
 <body>
+
+<!-- ===== 迁移弹窗（进入即弹出） ===== -->
+<div class="migrate-modal" id="migrateModal">
+    <div class="migrate-modal-card">
+        <button class="migrate-modal-close" id="migrateModalClose" type="button" title="关闭">✕</button>
+        <div class="migrate-modal-icon">🚀</div>
+        <h2>即将跳转新官网</h2>
+        <p>旧官网已迁移至新云家官网<br>15 秒后自动跳转</p>
+        <div class="migrate-modal-countdown" id="migrateCountdown">剩余 15 秒自动跳转</div>
+        <div>
+            <a href="https://wwyuanyu.github.io/yunjianb/" target="_blank" rel="noopener noreferrer" class="migrate-modal-btn" id="migrateJumpBtn">立即跳转</a>
+        </div>
+    </div>
+</div>
 
 <!-- ===== 入口页 ===== -->
 <div class="entrance-page" id="entrancePage">
@@ -1071,6 +1231,12 @@
                rel="noopener noreferrer"
                class="btn-tab">
                 🔗 资源库
+            </a>
+            <a href="https://wwyuanyu.github.io/wlaq.io/"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="btn-security">
+                🛡️ 网络安全文档
             </a>
         </div>
         <div class="hero-cta" style="margin-top:16px;">
@@ -1346,6 +1512,60 @@ document.addEventListener('error', function (e) {
         `;
     }
 }, true);
+
+/* ========== 迁移弹窗：进入即弹出，可关闭，15秒自动跳转 ========== */
+(function () {
+    var NEW_SITE_URL = 'https://wwyuanyu.github.io/yunjianb/';
+    var modal = document.getElementById('migrateModal');
+    var closeBtn = document.getElementById('migrateModalClose');
+    var jumpBtn = document.getElementById('migrateJumpBtn');
+    var countdownEl = document.getElementById('migrateCountdown');
+    var seconds = 15;
+    var timer = null;
+
+    if (!modal) return;
+
+    // 进入即弹出
+    modal.classList.add('is-active');
+
+    function closeModal() {
+        if (timer) {
+            clearInterval(timer);
+            timer = null;
+        }
+        modal.classList.remove('is-active');
+    }
+
+    function jump() {
+        window.location.href = NEW_SITE_URL;
+    }
+
+    // 关闭按钮：关闭弹窗（停止倒计时）
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+
+    // 点击遮罩层不关闭，必须使用关闭按钮或跳转
+    modal.addEventListener('click', function (e) {
+        if (e.target === modal) {
+            // 可选：如需点击遮罩也关闭，取消下一行注释
+            // closeModal();
+        }
+    });
+
+    // 立即跳转按钮
+    if (jumpBtn) jumpBtn.addEventListener('click', function () {
+        jump();
+    });
+
+    // 15 秒倒计时自动跳转
+    timer = setInterval(function () {
+        seconds--;
+        if (countdownEl) countdownEl.textContent = '剩余 ' + seconds + ' 秒自动跳转';
+        if (seconds <= 0) {
+            closeModal();
+            jump();
+        }
+    }, 1000);
+}());
 </script>
 
 </body>
